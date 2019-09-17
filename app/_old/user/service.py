@@ -3,8 +3,8 @@ from datetime import datetime
 from helpers import hash_password
 from models.shared import PASSWORD_SALT, db
 from todo import ToDoService
-from todolist import ToDoListService
-from authtoken import AuthTokenService, AuthToken
+from todolist import ToDoList
+from authtoken import AuthToken, AuthToken
 
 from .model import User
 
@@ -60,13 +60,13 @@ class UserService:
         user = UserService.get_by_id(user_id)
 
         for authtoken in AuthToken.query.filter_by(user_id=user_id):
-            AuthTokenService.delete(authtoken, commit=False)
+            AuthToken.delete(authtoken, commit=False)
 
         for todo in ToDoService.get_all(user_id):
             ToDoService.delete(todo, commit=False)
 
-        for todolist in ToDoListService.get_all(user_id):
-            ToDoListService.delete(todolist, commit=False)
+        for todolist in ToDoList.get_all(user_id):
+            ToDoList.delete(todolist, commit=False)
 
         db.session.delete(user)
         db.session.commit()

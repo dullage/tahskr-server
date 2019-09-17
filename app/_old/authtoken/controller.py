@@ -3,7 +3,7 @@ from marshmallow.exceptions import ValidationError
 
 import language as lang
 from helpers import api_message, json_required
-from user import UserSchema, UserService
+from user import UserSchema, User
 
 from .schema import AuthTokenSchema
 from .service import AuthTokenService
@@ -21,7 +21,7 @@ def auth():
         return api_message(e.messages, 400)
 
     # Authenticate Credentials
-    user = UserService.authenticate(data["email_address"], data["password"])
+    user = User.authenticate(data["email_address"], data["password"])
     if user is None:
         return api_message(lang.invalid_credentials, 401)
 

@@ -2,7 +2,7 @@ from flask import Blueprint, g, jsonify, request
 from marshmallow import ValidationError
 
 import language as lang
-from authtoken import AuthTokenService
+from authtoken import AuthToken
 from helpers import api_message, json_required
 
 from .schema import ToDoListSchema
@@ -12,7 +12,7 @@ todolist_blueprint = Blueprint("todolist_blueprint", __name__)
 
 
 @todolist_blueprint.route("/api/todolist", methods=["GET", "POST"])
-@AuthTokenService.required
+@AuthToken.required
 @json_required
 def todolist():
     # GET
@@ -39,7 +39,7 @@ def todolist():
 @todolist_blueprint.route(
     "/api/todolist/<int:todolist_id>", methods=["GET", "PATCH", "DELETE"]
 )
-@AuthTokenService.required
+@AuthToken.required
 @json_required
 def todolist_by_id(todolist_id):
     todolist = ToDoListService.get_by_id(g.user_id, todolist_id)
