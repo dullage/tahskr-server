@@ -3,7 +3,7 @@ from marshmallow.exceptions import ValidationError
 
 import language as lang
 from helpers import api_message, json_required
-from components.user import UserSchema, User  # TODO!
+from components.user import UserSchema, User
 
 from .model import AuthToken
 from .schema import AuthTokenSchema

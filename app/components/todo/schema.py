@@ -1,10 +1,10 @@
-from marshmallow import Schema, fields
+from marshmallow import Schema, fields, validate
 
 
 class ToDoSchema(Schema):
     id = fields.Int(dump_only=True)
     user_id = fields.Int(required=True, data_key="userId")
-    summary = fields.Str(required=True)
+    summary = fields.Str(required=True, validate=validate.Length(max=255))
     parent_id = fields.Int(allow_none=True, missing=None, data_key="parentId")
     list_id = fields.Int(allow_none=True, missing=None, data_key="listId")
     notes = fields.Str(allow_none=True, missing=None)
@@ -16,5 +16,3 @@ class ToDoSchema(Schema):
         allow_none=True, missing=None, data_key="snoozeDate"
     )
     created = fields.DateTime(dump_only=True)
-
-    # TODO: Character lengths.

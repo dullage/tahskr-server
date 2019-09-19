@@ -10,7 +10,7 @@ class ToDo(db.Model, Base):
 
     id = db.Column(db.Integer, primary_key=True, nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey("User.id"), nullable=False)
-    summary = db.Column(db.String, nullable=False)
+    summary = db.Column(db.String(255), nullable=False)
     parent_id = db.Column(db.Integer, db.ForeignKey("ToDo.id"))
     list_id = db.Column(db.Integer, db.ForeignKey("ToDoList.id"))
     notes = db.Column(db.Text)

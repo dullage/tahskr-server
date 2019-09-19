@@ -10,8 +10,8 @@ class User(db.Model, Base):
     __tablename__ = "User"
 
     id = db.Column(db.Integer, primary_key=True)
-    email_address = db.Column(db.String, unique=True, nullable=False)
-    password = db.Column(db.String, nullable=False)
+    email_address = db.Column(db.String(64), unique=True, nullable=False)
+    password = db.Column(db.String(255), nullable=False)
     failed_login_attempts = db.Column(db.Integer, nullable=False)
     locked = db.Column(db.Boolean, nullable=False)
     created = db.Column(db.DateTime, nullable=False)
@@ -46,7 +46,7 @@ class User(db.Model, Base):
         if user is None:
             return None
         if user.locked is True:
-            return None  # TODO
+            return None  # TODO: Let the user know and allow them to reset.
         if hash_password(password, PASSWORD_SALT) != user.password:
             user.failed_login_attempts += 1
             if user.failed_login_attempts >= 3:
