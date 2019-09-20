@@ -2,10 +2,10 @@ import os
 
 from flask import Flask
 
-from components.authtoken import authtoken_blueprint
-from components.todo import todo_blueprint
-from components.todolist import todolist_blueprint
-from components.user import user_blueprint
+from components.authtoken.controller import authtoken_blueprint
+from components.todo.controller import todo_blueprint
+from components.todolist.controller import todolist_blueprint
+from components.user.controller import user_blueprint
 from shared import db
 
 app = Flask(__name__)

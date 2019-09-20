@@ -1,6 +1,6 @@
 from datetime import datetime
 
-from components.base import Base
+from components.base.model import Base
 from helpers import hash_password
 from shared import PASSWORD_SALT, db
 
@@ -45,7 +45,9 @@ class User(db.Model, Base):
         if user is None:
             return None
         if user.locked is True:
-            return None  # TODO: Let the user know and allow them to reset.
+            return (
+                None
+            )  # TODO: Let the API consumer know and allow them to reset.
         if hash_password(password, PASSWORD_SALT) != user.password:
             user.failed_login_attempts += 1
             if user.failed_login_attempts >= 3:

@@ -4,7 +4,7 @@ from uuid import uuid4
 
 from flask import g, jsonify, request
 
-from components.base import Base
+from components.base.model import Base
 from shared import db
 
 

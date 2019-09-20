@@ -1,6 +1,6 @@
 from datetime import date, datetime
 
-from components.base import Base
+from components.base.model import Base
 from helpers import setattrs
 from shared import db
 

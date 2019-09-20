@@ -2,7 +2,8 @@ from flask import Blueprint, g, jsonify, request
 from marshmallow import Schema, ValidationError, fields
 
 import language as lang
-from components.authtoken import AuthToken
+from components.authtoken.model import AuthToken
+from components.todolist.model import ToDoList
 from helpers import api_message, json_required
 
 from .model import ToDo
@@ -50,7 +51,21 @@ def todo():
         except (ValidationError) as e:
             return api_message(e.messages, 400)
 
-        # TODO: Validate the parent and list ids exist for the user.
+        # Validate the user owns the declared parent ToDo
+        if (
+            data["parent_id"] is not None
+            and ToDo.get_by_id_for_user(g.user_id, data["parent_id"])
+            is None
+        ):
+            return api_message(lang.parent_id_not_found, 400)
+
+        # Validate the user owns the declared ToDoList
+        if (
+            data["list_id"] is not None
+            and ToDoList.get_by_id_for_user(g.user_id, data["list_id"])
+            is None
+        ):
+            return api_message(lang.list_id_not_found, 400)
 
         # Create and Return ToDo
         todo = ToDo(g.user_id, data)
@@ -81,7 +96,21 @@ def todo_by_id(todo_id):
         except ValidationError as e:
             return api_message(e.messages, 400)
 
-        # TODO: Validate the parent and list ids exist for the user.
+        # Validate the user owns the declared parent ToDo
+        if (
+            data["parent_id"] is not None
+            and ToDo.get_by_id_for_user(g.user_id, data["parent_id"])
+            is None
+        ):
+            return api_message(lang.parent_id_not_found, 400)
+
+        # Validate the user owns the declared ToDoList
+        if (
+            data["list_id"] is not None
+            and ToDoList.get_by_id_for_user(g.user_id, data["list_id"])
+            is None
+        ):
+            return api_message(lang.list_id_not_found, 400)
 
         # Update and Return ToDo
         todo.update(data)

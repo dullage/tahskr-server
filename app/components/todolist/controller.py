@@ -2,8 +2,8 @@ from flask import Blueprint, g, jsonify, request
 from marshmallow import ValidationError
 
 import language as lang
-from components.authtoken import AuthToken
-from components.todo import ToDo
+from components.authtoken.model import AuthToken
+from components.todo.model import ToDo
 from helpers import api_message, json_required
 
 from .model import ToDoList

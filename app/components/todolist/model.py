@@ -1,6 +1,6 @@
 from datetime import datetime
 
-from components.base import Base
+from components.base.model import Base
 from shared import db
 
 
