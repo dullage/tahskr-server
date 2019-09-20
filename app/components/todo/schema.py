@@ -11,7 +11,7 @@ class ToDoSchema(Schema):
     completed_datetime = fields.DateTime(
         allow_none=True, missing=None, data_key="completedDatetime"
     )
-    starred = fields.Bool(missing=False)
+    important = fields.Bool(missing=False)
     snooze_date = fields.Date(
         allow_none=True, missing=None, data_key="snoozeDate"
     )

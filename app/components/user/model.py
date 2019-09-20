@@ -1,9 +1,8 @@
 from datetime import datetime
 
 from components.base import Base
-from db import db
 from helpers import hash_password
-from shared import PASSWORD_SALT
+from shared import PASSWORD_SALT, db
 
 
 class User(db.Model, Base):

@@ -6,7 +6,7 @@ from components.authtoken import authtoken_blueprint
 from components.todo import todo_blueprint
 from components.todolist import todolist_blueprint
 from components.user import user_blueprint
-from db import db
+from shared import db
 
 app = Flask(__name__)
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False

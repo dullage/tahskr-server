@@ -1,8 +1,8 @@
 from datetime import date, datetime
 
 from components.base import Base
-from db import db
 from helpers import setattrs
+from shared import db
 
 
 class ToDo(db.Model, Base):
@@ -15,7 +15,7 @@ class ToDo(db.Model, Base):
     list_id = db.Column(db.Integer, db.ForeignKey("ToDoList.id"))
     notes = db.Column(db.Text)
     completed_datetime = db.Column(db.DateTime)
-    starred = db.Column(db.Boolean, nullable=False)
+    important = db.Column(db.Boolean, nullable=False)
     snooze_date = db.Column(db.Date)
     created = db.Column(db.DateTime, nullable=False)
 

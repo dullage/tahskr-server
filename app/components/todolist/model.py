@@ -1,7 +1,7 @@
 from datetime import datetime
 
 from components.base import Base
-from db import db
+from shared import db
 
 
 class ToDoList(db.Model, Base):

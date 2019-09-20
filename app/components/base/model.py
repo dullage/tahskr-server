@@ -1,4 +1,4 @@
-from db import db
+from shared import db
 
 
 class Base(object):
