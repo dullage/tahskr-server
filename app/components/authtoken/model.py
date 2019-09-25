@@ -73,12 +73,6 @@ class AuthToken(db.Model, Base):
 
         return wrapped_func
 
-    # def delete(self, commit=True):
-    #     db.session.delete(self)
-    #     if commit is True:
-    #         db.session.commit()
-    #     return self.id
-
     @classmethod
     def delete_expired(cls):
         for authtoken in cls.query.filter(cls.expiry < datetime.now()):
