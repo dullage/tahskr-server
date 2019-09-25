@@ -68,4 +68,4 @@ def todolist_by_id(todolist_id):
         for todo in ToDo.get_by_list_id(todolist.id):
             todo.update({"list_id": None}, commit=False)
         todolist.delete(commit=True)
-        return api_message("Deletion successful", 200)
+        return api_message(lang.deletion_successful, 200)
