@@ -23,7 +23,9 @@ def todo():
             {
                 "parent_id": fields.Int(missing=None, data_key="parentId"),
                 "completed": fields.Bool(missing=None),
-                "exclude_snoozed": fields.Bool(missing=False),
+                "exclude_snoozed": fields.Bool(
+                    missing=False, data_key="excludeSnoozed"
+                ),
             }
         )
 
@@ -54,16 +56,14 @@ def todo():
         # Validate the user owns the declared parent ToDo
         if (
             data["parent_id"] is not None
-            and ToDo.get_by_id_for_user(g.user_id, data["parent_id"])
-            is None
+            and ToDo.get_by_id_for_user(g.user_id, data["parent_id"]) is None
         ):
             return api_message(lang.parent_id_not_found, 400)
 
         # Validate the user owns the declared ToDoList
         if (
             data["list_id"] is not None
-            and ToDoList.get_by_id_for_user(g.user_id, data["list_id"])
-            is None
+            and ToDoList.get_by_id_for_user(g.user_id, data["list_id"]) is None
         ):
             return api_message(lang.list_id_not_found, 400)
 
@@ -99,16 +99,14 @@ def todo_by_id(todo_id):
         # Validate the user owns the declared parent ToDo
         if (
             data["parent_id"] is not None
-            and ToDo.get_by_id_for_user(g.user_id, data["parent_id"])
-            is None
+            and ToDo.get_by_id_for_user(g.user_id, data["parent_id"]) is None
         ):
             return api_message(lang.parent_id_not_found, 400)
 
         # Validate the user owns the declared ToDoList
         if (
             data["list_id"] is not None
-            and ToDoList.get_by_id_for_user(g.user_id, data["list_id"])
-            is None
+            and ToDoList.get_by_id_for_user(g.user_id, data["list_id"]) is None
         ):
             return api_message(lang.list_id_not_found, 400)
 
@@ -121,4 +119,4 @@ def todo_by_id(todo_id):
         for subtask in ToDo.get_by_parent_id(todo.id):
             subtask.delete(commit=False)
         todo.delete(commit=True)
-        return api_message("Deletion successful", 200)
+        return api_message(lang.deletion_successful, 200)
