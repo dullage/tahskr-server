@@ -92,8 +92,6 @@ None
 
 #### Data Parameters
 
-#### Data Parameters
-
 | Name         | Data Type | Required? | Details |
 | ------------ | --------- | --------- | ------- |
 | emailAddress | string    | Yes       |         |
