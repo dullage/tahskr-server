@@ -20,7 +20,7 @@ class User(db.Model, Base):
         self.password = hash_password(password, PASSWORD_SALT)
         self.failed_login_attempts = 0
         self.locked = False
-        self.created = datetime.now()
+        self.created = datetime.utcnow()
 
         db.session.add(self)
         db.session.commit()

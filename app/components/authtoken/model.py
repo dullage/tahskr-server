@@ -20,7 +20,7 @@ class AuthToken(db.Model, Base):
     def __init__(self, user_id):
         self.user_id = user_id
 
-        now = datetime.now()
+        now = datetime.utcnow()
         self.id = str(uuid4())
         self.expiry = now + timedelta(days=30)
         self.last_used = now
@@ -32,7 +32,7 @@ class AuthToken(db.Model, Base):
     @classmethod
     def get_active_by_id(cls, token):
         return cls.query.filter(
-            cls.id == token, cls.expiry > datetime.now()
+            cls.id == token, cls.expiry > datetime.utcnow()
         ).first()
 
     @classmethod
@@ -66,7 +66,7 @@ class AuthToken(db.Model, Base):
 
             g.user_id = authtoken.user_id
 
-            authtoken.last_used = datetime.now()
+            authtoken.last_used = datetime.utcnow()
             db.session.commit()
 
             return func(*args, **kwargs)
@@ -75,6 +75,6 @@ class AuthToken(db.Model, Base):
 
     @classmethod
     def delete_expired(cls):
-        for authtoken in cls.query.filter(cls.expiry < datetime.now()):
+        for authtoken in cls.query.filter(cls.expiry < datetime.utcnow()):
             authtoken.delete(commit=False)
         db.session.commit()

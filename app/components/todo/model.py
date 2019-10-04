@@ -1,4 +1,4 @@
-from datetime import date, datetime
+from datetime import datetime
 
 from components.base.model import Base
 from helpers import setattrs
@@ -23,7 +23,7 @@ class ToDo(db.Model, Base):
         self.user_id = user_id
         setattrs(self, attrs)
 
-        self.created = datetime.now()
+        self.created = datetime.utcnow()
 
         db.session.add(self)
         db.session.commit()
@@ -56,9 +56,11 @@ class ToDo(db.Model, Base):
             query = query.filter(ToDo.completed_datetime.isnot(None))
         if exclude_snoozed is True:
             query = query.filter(
-                (cls.snooze_date <= date.today())
+                (cls.snooze_date <= datetime.utcnow().date)
                 | (cls.snooze_date.is_(None))
             )
+        # TODO: Do the above date comparison based on a user supplied date to
+        # account for TZ differences.
 
         return query.all()
 

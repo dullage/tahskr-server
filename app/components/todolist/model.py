@@ -16,7 +16,7 @@ class ToDoList(db.Model, Base):
         self.user_id = user_id
         self.name = name
 
-        self.created = datetime.now()
+        self.created = datetime.utcnow()
 
         db.session.add(self)
         db.session.commit()
