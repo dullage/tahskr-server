@@ -106,8 +106,7 @@ None
   "created": "2019-09-25T13:17:34.742383",
   "expiry": "2019-10-25T13:17:34.742383",
   "lastUsed": "2019-09-25T13:17:34.742383",
-  "token": "f1737df5-65f3-48dh-8665-3074d112de39",
-  "userId": 243
+  "token": "f1737df5-65f3-48dh-8665-3074d112de39"
 }
 ```
 
@@ -164,8 +163,7 @@ None
 {
   "created": "2019-09-25T13:20:56.676620",
   "id": 567,
-  "name": "Personal",
-  "userId": 243
+  "name": "Personal"
 }
 ```
 
@@ -220,14 +218,12 @@ None
   {
     "created": "2019-09-25T13:20:52.966185",
     "id": 567,
-    "name": "Personal",
-    "userId": 243
+    "name": "Personal"
   },
   {
     "created": "2019-09-25T13:20:56.676620",
     "id": 598,
-    "name": "Work",
-    "userId": 243
+    "name": "Work"
   }
 ]
 ```
@@ -272,8 +268,7 @@ None
 {
   "created": "2019-09-25T13:20:56.676620",
   "id": 567,
-  "name": "Personal",
-  "userId": 243
+  "name": "Personal"
 }
 ```
 
@@ -328,8 +323,7 @@ None
 {
   "created": "2019-09-25T13:20:56.676620",
   "id": 567,
-  "name": "Home",
-  "userId": 243
+  "name": "Home"
 }
 ```
 
@@ -456,8 +450,7 @@ None
   "notes": null,
   "parentId": null,
   "snoozeDate": null,
-  "summary": "My First To Do",
-  "userId": 243
+  "summary": "My First To Do"
 }
 ```
 
@@ -522,8 +515,7 @@ None
     "notes": null,
     "parentId": null,
     "snoozeDate": null,
-    "summary": "My First To Do",
-    "userId": 243
+    "summary": "My First To Do"
   },
   {
     "completedDatetime": null,
@@ -534,8 +526,7 @@ None
     "notes": "Think of better dummy data.",
     "parentId": null,
     "snoozeDate": "2019-09-26",
-    "summary": "Another To Do",
-    "userId": 243
+    "summary": "Another To Do"
   }
 ]
 ```
@@ -596,8 +587,7 @@ None
   "notes": null,
   "parentId": null,
   "snoozeDate": null,
-  "summary": "My First To Do",
-  "userId": 243
+  "summary": "My First To Do"
 }
 ```
 
@@ -664,8 +654,7 @@ None
   "notes": null,
   "parentId": null,
   "snoozeDate": null,
-  "summary": "My First To Do - Updated",
-  "userId": 243
+  "summary": "My First To Do - Updated"
 }
 ```
 
