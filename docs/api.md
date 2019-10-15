@@ -435,6 +435,7 @@ None
 | important         | boolean   | No        | Defaults to false.                      |
 | snoozeDate        | string    | No        |                                         |
 | completedDatetime | string    | No        |                                         |
+| rank              | decimal   | No        |                                         |
 
 #### Responses Examples
 
@@ -449,6 +450,7 @@ None
   "listId": null,
   "notes": null,
   "parentId": null,
+  "rank": null,
   "snoozeDate": null,
   "summary": "My First To Do"
 }
@@ -514,6 +516,7 @@ None
     "listId": null,
     "notes": null,
     "parentId": null,
+    "rank": null,
     "snoozeDate": null,
     "summary": "My First To Do"
   },
@@ -525,6 +528,7 @@ None
     "listId": null,
     "notes": "Think of better dummy data.",
     "parentId": null,
+    "rank": null,
     "snoozeDate": "2019-09-26",
     "summary": "Another To Do"
   }
@@ -586,6 +590,7 @@ None
   "listId": null,
   "notes": null,
   "parentId": null,
+  "rank": null,
   "snoozeDate": null,
   "summary": "My First To Do"
 }
@@ -653,6 +658,7 @@ None
   "listId": null,
   "notes": null,
   "parentId": null,
+  "rank": null,
   "snoozeDate": null,
   "summary": "My First To Do - Updated"
 }
