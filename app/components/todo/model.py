@@ -17,6 +17,7 @@ class ToDo(db.Model, Base):
     completed_datetime = db.Column(db.DateTime)
     important = db.Column(db.Boolean, nullable=False)
     snooze_date = db.Column(db.Date)
+    rank = db.Column(db.Numeric)
     created = db.Column(db.DateTime, nullable=False)
 
     def __init__(self, user_id, attrs):
