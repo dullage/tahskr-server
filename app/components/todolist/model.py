@@ -20,8 +20,3 @@ class ToDoList(db.Model, Base):
 
         db.session.add(self)
         db.session.commit()
-
-    def update(self, name):
-        self.name = name
-        db.session.commit()
-        return self
