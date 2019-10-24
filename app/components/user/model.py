@@ -13,6 +13,7 @@ class User(db.Model, Base):
     password = db.Column(db.String(255), nullable=False)
     failed_login_attempts = db.Column(db.Integer, nullable=False)
     locked = db.Column(db.Boolean, nullable=False)
+    config = db.Column(db.PickleType)
     created = db.Column(db.DateTime, nullable=False)
 
     def __init__(self, email_address, password):

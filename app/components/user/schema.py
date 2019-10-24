@@ -11,4 +11,5 @@ class UserSchema(Schema):
     password = fields.Str(
         load_only=True, required=True, validate=validate.Length(max=255)
     )
+    config = fields.Dict()
     created = fields.DateTime(dump_only=True)

@@ -17,7 +17,6 @@ class ToDo(db.Model, Base):
     completed_datetime = db.Column(db.DateTime)
     important = db.Column(db.Boolean, nullable=False)
     snooze_date = db.Column(db.Date)
-    rank = db.Column(db.Numeric)
     created = db.Column(db.DateTime, nullable=False)
 
     def __init__(self, user_id, attrs):
@@ -72,9 +71,3 @@ class ToDo(db.Model, Base):
     @classmethod
     def get_by_list_id(cls, list_id):
         return cls.query.filter_by(list_id=list_id).all()
-
-    def update(self, attrs, commit=True):
-        setattrs(self, attrs)
-        if commit is True:
-            db.session.commit()
-        return self

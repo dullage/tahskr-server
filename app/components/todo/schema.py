@@ -15,5 +15,4 @@ class ToDoSchema(Schema):
     snooze_date = fields.Date(
         allow_none=True, missing=None, data_key="snoozeDate"
     )
-    rank = fields.Decimal(allow_none=True, missing=None)
     created = fields.DateTime(dump_only=True)
