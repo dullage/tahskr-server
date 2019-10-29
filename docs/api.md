@@ -88,7 +88,7 @@ GET
 
 | Name  | Value                                                      | Required? |
 | ----- | ---------------------------------------------------------- | --------- |
-| token | An authentication token retrieved using the /auth service. | Yes       |
+| x-token | An authentication token retrieved using the /auth service. | Yes       |
 
 #### URL Parameters
 
@@ -143,7 +143,7 @@ PATCH
 
 | Name         | Value                                                      | Required? |
 | ------------ | ---------------------------------------------------------- | --------- |
-| token        | An authentication token retrieved using the /auth service. | Yes       |
+| x-token        | An authentication token retrieved using the /auth service. | Yes       |
 | Content-Type | application/json                                           | Yes       |
 
 #### URL Parameters
@@ -274,7 +274,7 @@ POST
 
 | Name         | Value                                                      | Required? |
 | ------------ | ---------------------------------------------------------- | --------- |
-| token        | An authentication token retrieved using the /auth service. | Yes       |
+| x-token        | An authentication token retrieved using the /auth service. | Yes       |
 | Content-Type | application/json                                           | Yes       |
 
 #### URL Parameters
@@ -331,7 +331,7 @@ GET
 
 | Name  | Value                                                      | Required? |
 | ----- | ---------------------------------------------------------- | --------- |
-| token | An authentication token retrieved using the /auth service. | Yes       |
+| x-token | An authentication token retrieved using the /auth service. | Yes       |
 
 #### URL Parameters
 
@@ -382,7 +382,7 @@ GET
 
 | Name  | Value                                                      | Required? |
 | ----- | ---------------------------------------------------------- | --------- |
-| token | An authentication token retrieved using the /auth service. | Yes       |
+| x-token | An authentication token retrieved using the /auth service. | Yes       |
 
 #### URL Parameters
 
@@ -434,7 +434,7 @@ PATCH
 
 | Name         | Value                                                      | Required? |
 | ------------ | ---------------------------------------------------------- | --------- |
-| token        | An authentication token retrieved using the /auth service. | Yes       |
+| x-token        | An authentication token retrieved using the /auth service. | Yes       |
 | Content-Type | application/json                                           | Yes       |
 
 #### URL Parameters
@@ -499,7 +499,7 @@ DELETE
 
 | Name  | Value                                                      | Required? |
 | ----- | ---------------------------------------------------------- | --------- |
-| token | An authentication token retrieved using the /auth service. | Yes       |
+| x-token | An authentication token retrieved using the /auth service. | Yes       |
 
 #### URL Parameters
 
@@ -549,7 +549,7 @@ POST
 
 | Name         | Value                                                      | Required? |
 | ------------ | ---------------------------------------------------------- | --------- |
-| token        | An authentication token retrieved using the /auth service. | Yes       |
+| x-token        | An authentication token retrieved using the /auth service. | Yes       |
 | Content-Type | application/json                                           | Yes       |
 
 #### URL Parameters
@@ -618,7 +618,7 @@ GET
 
 | Name  | Value                                                      | Required? |
 | ----- | ---------------------------------------------------------- | --------- |
-| token | An authentication token retrieved using the /auth service. | Yes       |
+| x-token | An authentication token retrieved using the /auth service. | Yes       |
 
 #### URL Parameters
 
@@ -695,7 +695,7 @@ GET
 
 | Name  | Value                                                      | Required? |
 | ----- | ---------------------------------------------------------- | --------- |
-| token | An authentication token retrieved using the /auth service. | Yes       |
+| x-token | An authentication token retrieved using the /auth service. | Yes       |
 
 #### URL Parameters
 
@@ -753,7 +753,7 @@ PATCH
 
 | Name         | Value                                                      | Required? |
 | ------------ | ---------------------------------------------------------- | --------- |
-| token        | An authentication token retrieved using the /auth service. | Yes       |
+| x-token        | An authentication token retrieved using the /auth service. | Yes       |
 | Content-Type | application/json                                           | Yes       |
 
 #### URL Parameters

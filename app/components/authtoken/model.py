@@ -50,7 +50,7 @@ class AuthToken(db.Model, Base):
 
         @wraps(func)
         def wrapped_func(*args, **kwargs):
-            token = request.headers.get("token")
+            token = request.headers.get("x-token")
             if token is None:
                 return (
                     jsonify({"message": "Authentication token missing."}),
