@@ -274,7 +274,7 @@ POST
 
 | Name         | Value                                                      | Required? |
 | ------------ | ---------------------------------------------------------- | --------- |
-| x-token        | An authentication token retrieved using the /auth service. | Yes       |
+| x-token      | An authentication token retrieved using the /auth service. | Yes       |
 | Content-Type | application/json                                           | Yes       |
 
 #### URL Parameters
