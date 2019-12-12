@@ -7,6 +7,8 @@ All dates and datetimes should be formatted to ISO 8601 standards.
 ## Methods
 
 - [Create a User](#create-a-user)
+- [Get a User](#get-a-user)
+- [Update a User](#update-a-user)
 - [Authenticate](#authenticate)
 - [Create a To-Do List](#create-a-to-do-list)
 - [Get All To-Do Lists](#get-all-to-do-lists)
@@ -45,6 +47,7 @@ None
 | ------------ | --------- | --------- | ------------------------------ |
 | emailAddress | string    | Yes       | Must be a valid email address. |
 | password     | string    | Yes       |                                |
+| config       | object    | No        |                                |
 
 #### Response Examples
 
@@ -52,6 +55,9 @@ None
 
 ```json
 {
+  "config": {
+    "showCompleted": false
+  },
   "created": "2019-09-25T13:13:14.702375",
   "emailAddress": "john@example.com",
   "id": 243
@@ -65,6 +71,131 @@ None
   "message": {
     "emailAddress": ["Not a valid email address."]
   }
+}
+```
+
+## Get a User
+
+#### Method
+
+GET
+
+#### URL
+
+/api/user/<id>
+
+#### Headers
+
+| Name    | Value                                                      | Required? |
+| ------- | ---------------------------------------------------------- | --------- |
+| x-token | An authentication token retrieved using the /auth service. | Yes       |
+
+#### URL Parameters
+
+None
+
+#### Data Parameters
+
+None
+
+#### Responses Examples
+
+![](https://img.shields.io/badge/200-OK-4DC292?style=flat-square)
+
+```json
+{
+  "config": {
+    "showCompleted": false
+  },
+  "created": "2019-09-25T13:13:14.702375",
+  "emailAddress": "john@example.com",
+  "id": 243
+}
+```
+
+![](https://img.shields.io/badge/401-Unauthorised-DC555C?style=flat-square)
+
+```json
+{
+  "message": "Authentication token invalid."
+}
+```
+
+![](https://img.shields.io/badge/404-Not%20Found-DC555C?style=flat-square)
+
+```json
+{
+  "message": "The requested resource was not found."
+}
+```
+
+## Update a User
+
+#### Method
+
+PATCH
+
+#### URL
+
+/api/user/<id>
+
+#### Headers
+
+| Name         | Value                                                      | Required? |
+| ------------ | ---------------------------------------------------------- | --------- |
+| x-token      | An authentication token retrieved using the /auth service. | Yes       |
+| Content-Type | application/json                                           | Yes       |
+
+#### URL Parameters
+
+None
+
+#### Data Parameters
+
+| Name         | Data Type | Required? | Details                        |
+| ------------ | --------- | --------- | ------------------------------ |
+| emailAddress | string    | No        | Must be a valid email address. |
+| password     | string    | No        | Cannot be null.                |
+| config       | object    | No        |                                |
+
+#### Responses Examples
+
+![](https://img.shields.io/badge/200-OK-4DC292?style=flat-square)
+
+```json
+{
+  "config": {
+    "showCompleted": false
+  },
+  "created": "2019-09-25T13:13:14.702375",
+  "emailAddress": "john@example.com",
+  "id": 243
+}
+```
+
+![](https://img.shields.io/badge/400-Client%20Error-DC555C?style=flat-square)
+
+```json
+{
+  "message": {
+    "password": ["Field may not be null."]
+  }
+}
+```
+
+![](https://img.shields.io/badge/401-Unauthorised-DC555C?style=flat-square)
+
+```json
+{
+  "message": "Authentication token invalid."
+}
+```
+
+![](https://img.shields.io/badge/404-Not%20Found-DC555C?style=flat-square)
+
+```json
+{
+  "message": "The requested resource was not found."
 }
 ```
 
@@ -92,8 +223,6 @@ None
 
 #### Data Parameters
 
-#### Data Parameters
-
 | Name         | Data Type | Required? | Details |
 | ------------ | --------- | --------- | ------- |
 | emailAddress | string    | Yes       |         |
@@ -109,7 +238,7 @@ None
   "expiry": "2019-10-25T13:17:34.742383",
   "lastUsed": "2019-09-25T13:17:34.742383",
   "token": "f1737df5-65f3-48dh-8665-3074d112de39",
-  "userId": 243
+  "userId": 567
 }
 ```
 
@@ -145,7 +274,7 @@ POST
 
 | Name         | Value                                                      | Required? |
 | ------------ | ---------------------------------------------------------- | --------- |
-| token        | An authentication token retrieved using the /auth service. | Yes       |
+| x-token      | An authentication token retrieved using the /auth service. | Yes       |
 | Content-Type | application/json                                           | Yes       |
 
 #### URL Parameters
@@ -166,8 +295,7 @@ None
 {
   "created": "2019-09-25T13:20:56.676620",
   "id": 567,
-  "name": "Personal",
-  "userId": 243
+  "name": "Personal"
 }
 ```
 
@@ -201,9 +329,9 @@ GET
 
 #### Headers
 
-| Name  | Value                                                      | Required? |
-| ----- | ---------------------------------------------------------- | --------- |
-| token | An authentication token retrieved using the /auth service. | Yes       |
+| Name    | Value                                                      | Required? |
+| ------- | ---------------------------------------------------------- | --------- |
+| x-token | An authentication token retrieved using the /auth service. | Yes       |
 
 #### URL Parameters
 
@@ -222,14 +350,12 @@ None
   {
     "created": "2019-09-25T13:20:52.966185",
     "id": 567,
-    "name": "Personal",
-    "userId": 243
+    "name": "Personal"
   },
   {
     "created": "2019-09-25T13:20:56.676620",
     "id": 598,
-    "name": "Work",
-    "userId": 243
+    "name": "Work"
   }
 ]
 ```
@@ -254,9 +380,9 @@ GET
 
 #### Headers
 
-| Name  | Value                                                      | Required? |
-| ----- | ---------------------------------------------------------- | --------- |
-| token | An authentication token retrieved using the /auth service. | Yes       |
+| Name    | Value                                                      | Required? |
+| ------- | ---------------------------------------------------------- | --------- |
+| x-token | An authentication token retrieved using the /auth service. | Yes       |
 
 #### URL Parameters
 
@@ -274,8 +400,7 @@ None
 {
   "created": "2019-09-25T13:20:56.676620",
   "id": 567,
-  "name": "Personal",
-  "userId": 243
+  "name": "Personal"
 }
 ```
 
@@ -309,7 +434,7 @@ PATCH
 
 | Name         | Value                                                      | Required? |
 | ------------ | ---------------------------------------------------------- | --------- |
-| token        | An authentication token retrieved using the /auth service. | Yes       |
+| x-token      | An authentication token retrieved using the /auth service. | Yes       |
 | Content-Type | application/json                                           | Yes       |
 
 #### URL Parameters
@@ -318,9 +443,9 @@ None
 
 #### Data Parameters
 
-| Name | Data Type | Required? | Details |
-| ---- | --------- | --------- | ------- |
-| name | String    | Yes       |         |
+| Name | Data Type | Required? | Details         |
+| ---- | --------- | --------- | --------------- |
+| name | String    | No        | Cannot be null. |
 
 #### Responses Examples
 
@@ -330,8 +455,7 @@ None
 {
   "created": "2019-09-25T13:20:56.676620",
   "id": 567,
-  "name": "Home",
-  "userId": 243
+  "name": "Home"
 }
 ```
 
@@ -373,9 +497,9 @@ DELETE
 
 #### Headers
 
-| Name  | Value                                                      | Required? |
-| ----- | ---------------------------------------------------------- | --------- |
-| token | An authentication token retrieved using the /auth service. | Yes       |
+| Name    | Value                                                      | Required? |
+| ------- | ---------------------------------------------------------- | --------- |
+| x-token | An authentication token retrieved using the /auth service. | Yes       |
 
 #### URL Parameters
 
@@ -425,7 +549,7 @@ POST
 
 | Name         | Value                                                      | Required? |
 | ------------ | ---------------------------------------------------------- | --------- |
-| token        | An authentication token retrieved using the /auth service. | Yes       |
+| x-token      | An authentication token retrieved using the /auth service. | Yes       |
 | Content-Type | application/json                                           | Yes       |
 
 #### URL Parameters
@@ -441,7 +565,7 @@ None
 | listId            | int       | No        | A To-Do List id.                        |
 | notes             | string    | No        |                                         |
 | important         | boolean   | No        | Defaults to false.                      |
-| snoozeDate        | string    | No        |                                         |
+| snoozeDatetime    | string    | No        |                                         |
 | completedDatetime | string    | No        |                                         |
 
 #### Responses Examples
@@ -457,9 +581,8 @@ None
   "listId": null,
   "notes": null,
   "parentId": null,
-  "snoozeDate": null,
-  "summary": "My First To Do",
-  "userId": 243
+  "snoozeDatetime": null,
+  "summary": "My First To Do"
 }
 ```
 
@@ -493,9 +616,9 @@ GET
 
 #### Headers
 
-| Name  | Value                                                      | Required? |
-| ----- | ---------------------------------------------------------- | --------- |
-| token | An authentication token retrieved using the /auth service. | Yes       |
+| Name    | Value                                                      | Required? |
+| ------- | ---------------------------------------------------------- | --------- |
+| x-token | An authentication token retrieved using the /auth service. | Yes       |
 
 #### URL Parameters
 
@@ -523,9 +646,8 @@ None
     "listId": null,
     "notes": null,
     "parentId": null,
-    "snoozeDate": null,
-    "summary": "My First To Do",
-    "userId": 243
+    "snoozeDatetime": null,
+    "summary": "My First To Do"
   },
   {
     "completedDatetime": null,
@@ -535,9 +657,8 @@ None
     "listId": null,
     "notes": "Think of better dummy data.",
     "parentId": null,
-    "snoozeDate": "2019-09-26",
-    "summary": "Another To Do",
-    "userId": 243
+    "snoozeDatetime": "2019-09-26T00:00:00.000",
+    "summary": "Another To Do"
   }
 ]
 ```
@@ -572,9 +693,9 @@ GET
 
 #### Headers
 
-| Name  | Value                                                      | Required? |
-| ----- | ---------------------------------------------------------- | --------- |
-| token | An authentication token retrieved using the /auth service. | Yes       |
+| Name    | Value                                                      | Required? |
+| ------- | ---------------------------------------------------------- | --------- |
+| x-token | An authentication token retrieved using the /auth service. | Yes       |
 
 #### URL Parameters
 
@@ -597,9 +718,8 @@ None
   "listId": null,
   "notes": null,
   "parentId": null,
-  "snoozeDate": null,
-  "summary": "My First To Do",
-  "userId": 243
+  "snoozeDatetime": null,
+  "summary": "My First To Do"
 }
 ```
 
@@ -633,7 +753,7 @@ PATCH
 
 | Name         | Value                                                      | Required? |
 | ------------ | ---------------------------------------------------------- | --------- |
-| token        | An authentication token retrieved using the /auth service. | Yes       |
+| x-token      | An authentication token retrieved using the /auth service. | Yes       |
 | Content-Type | application/json                                           | Yes       |
 
 #### URL Parameters
@@ -649,7 +769,7 @@ None
 | listId            | int       | No        | A To-Do List id.                        |
 | notes             | string    | No        |                                         |
 | important         | boolean   | No        |                                         |
-| snoozeDate        | string    | No        |                                         |
+| snoozeDatetime    | string    | No        |                                         |
 | completedDatetime | string    | No        |                                         |
 
 #### Responses Examples
@@ -665,9 +785,8 @@ None
   "listId": null,
   "notes": null,
   "parentId": null,
-  "snoozeDate": null,
-  "summary": "My First To Do - Updated",
-  "userId": 243
+  "snoozeDatetime": null,
+  "summary": "My First To Do - Updated"
 }
 ```
 

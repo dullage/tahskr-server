@@ -60,7 +60,7 @@ def todolist_by_id(todolist_id):
             return api_message(e.messages, 400)
 
         # Update and Return ToDoList
-        todolist.update(data["name"])
+        todolist.update(data)
         return jsonify(ToDoListSchema().dump(todolist))
 
     # DELETE

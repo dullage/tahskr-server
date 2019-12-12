@@ -98,14 +98,16 @@ def todo_by_id(todo_id):
 
         # Validate the user owns the declared parent ToDo
         if (
-            data["parent_id"] is not None
+            "parent_id" in data
+            and data["parent_id"] is not None
             and ToDo.get_by_id_for_user(g.user_id, data["parent_id"]) is None
         ):
             return api_message(lang.parent_id_not_found, 400)
 
         # Validate the user owns the declared ToDoList
         if (
-            data["list_id"] is not None
+            "list_id" in data
+            and data["list_id"] is not None
             and ToDoList.get_by_id_for_user(g.user_id, data["list_id"]) is None
         ):
             return api_message(lang.list_id_not_found, 400)

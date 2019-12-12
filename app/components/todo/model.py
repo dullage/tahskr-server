@@ -1,4 +1,4 @@
-from datetime import date, datetime
+from datetime import datetime
 
 from components.base.model import Base
 from helpers import setattrs
@@ -16,14 +16,14 @@ class ToDo(db.Model, Base):
     notes = db.Column(db.Text)
     completed_datetime = db.Column(db.DateTime)
     important = db.Column(db.Boolean, nullable=False)
-    snooze_date = db.Column(db.Date)
+    snooze_datetime = db.Column(db.DateTime)
     created = db.Column(db.DateTime, nullable=False)
 
     def __init__(self, user_id, attrs):
         self.user_id = user_id
         setattrs(self, attrs)
 
-        self.created = datetime.now()
+        self.created = datetime.utcnow()
 
         db.session.add(self)
         db.session.commit()
@@ -43,8 +43,8 @@ class ToDo(db.Model, Base):
             completed (bool, optional): True = Return only completed,
             False = Return only incomplete. Defaults to None (either).
 
-            exclude_snoozed (bool, optional): Exclude those with a snooze_date
-            after today. Defaults to False.
+            exclude_snoozed (bool, optional): Exclude those with a
+            snooze_datetime after today. Defaults to False.
 
         Returns:
             List of ToDo
@@ -56,9 +56,11 @@ class ToDo(db.Model, Base):
             query = query.filter(ToDo.completed_datetime.isnot(None))
         if exclude_snoozed is True:
             query = query.filter(
-                (cls.snooze_date <= date.today())
-                | (cls.snooze_date.is_(None))
+                (cls.snooze_datetime <= datetime.utcnow())
+                | (cls.snooze_datetime.is_(None))
             )
+        # TODO: Do the above date comparison based on a user supplied date to
+        # account for TZ differences.
 
         return query.all()
 
@@ -69,9 +71,3 @@ class ToDo(db.Model, Base):
     @classmethod
     def get_by_list_id(cls, list_id):
         return cls.query.filter_by(list_id=list_id).all()
-
-    def update(self, attrs, commit=True):
-        setattrs(self, attrs)
-        if commit is True:
-            db.session.commit()
-        return self
