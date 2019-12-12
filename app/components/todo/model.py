@@ -16,7 +16,7 @@ class ToDo(db.Model, Base):
     notes = db.Column(db.Text)
     completed_datetime = db.Column(db.DateTime)
     important = db.Column(db.Boolean, nullable=False)
-    snooze_date = db.Column(db.Date)
+    snooze_datetime = db.Column(db.DateTime)
     created = db.Column(db.DateTime, nullable=False)
 
     def __init__(self, user_id, attrs):
@@ -43,8 +43,8 @@ class ToDo(db.Model, Base):
             completed (bool, optional): True = Return only completed,
             False = Return only incomplete. Defaults to None (either).
 
-            exclude_snoozed (bool, optional): Exclude those with a snooze_date
-            after today. Defaults to False.
+            exclude_snoozed (bool, optional): Exclude those with a
+            snooze_datetime after today. Defaults to False.
 
         Returns:
             List of ToDo
@@ -56,8 +56,8 @@ class ToDo(db.Model, Base):
             query = query.filter(ToDo.completed_datetime.isnot(None))
         if exclude_snoozed is True:
             query = query.filter(
-                (cls.snooze_date <= datetime.utcnow().date)
-                | (cls.snooze_date.is_(None))
+                (cls.snooze_datetime <= datetime.utcnow())
+                | (cls.snooze_datetime.is_(None))
             )
         # TODO: Do the above date comparison based on a user supplied date to
         # account for TZ differences.

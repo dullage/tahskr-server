@@ -56,7 +56,7 @@ None
 ```json
 {
   "config": {
-      "showCompleted": false
+    "showCompleted": false
   },
   "created": "2019-09-25T13:13:14.702375",
   "emailAddress": "john@example.com",
@@ -86,8 +86,8 @@ GET
 
 #### Headers
 
-| Name  | Value                                                      | Required? |
-| ----- | ---------------------------------------------------------- | --------- |
+| Name    | Value                                                      | Required? |
+| ------- | ---------------------------------------------------------- | --------- |
 | x-token | An authentication token retrieved using the /auth service. | Yes       |
 
 #### URL Parameters
@@ -105,7 +105,7 @@ None
 ```json
 {
   "config": {
-      "showCompleted": false
+    "showCompleted": false
   },
   "created": "2019-09-25T13:13:14.702375",
   "emailAddress": "john@example.com",
@@ -143,7 +143,7 @@ PATCH
 
 | Name         | Value                                                      | Required? |
 | ------------ | ---------------------------------------------------------- | --------- |
-| x-token        | An authentication token retrieved using the /auth service. | Yes       |
+| x-token      | An authentication token retrieved using the /auth service. | Yes       |
 | Content-Type | application/json                                           | Yes       |
 
 #### URL Parameters
@@ -165,7 +165,7 @@ None
 ```json
 {
   "config": {
-      "showCompleted": false
+    "showCompleted": false
   },
   "created": "2019-09-25T13:13:14.702375",
   "emailAddress": "john@example.com",
@@ -329,8 +329,8 @@ GET
 
 #### Headers
 
-| Name  | Value                                                      | Required? |
-| ----- | ---------------------------------------------------------- | --------- |
+| Name    | Value                                                      | Required? |
+| ------- | ---------------------------------------------------------- | --------- |
 | x-token | An authentication token retrieved using the /auth service. | Yes       |
 
 #### URL Parameters
@@ -380,8 +380,8 @@ GET
 
 #### Headers
 
-| Name  | Value                                                      | Required? |
-| ----- | ---------------------------------------------------------- | --------- |
+| Name    | Value                                                      | Required? |
+| ------- | ---------------------------------------------------------- | --------- |
 | x-token | An authentication token retrieved using the /auth service. | Yes       |
 
 #### URL Parameters
@@ -434,7 +434,7 @@ PATCH
 
 | Name         | Value                                                      | Required? |
 | ------------ | ---------------------------------------------------------- | --------- |
-| x-token        | An authentication token retrieved using the /auth service. | Yes       |
+| x-token      | An authentication token retrieved using the /auth service. | Yes       |
 | Content-Type | application/json                                           | Yes       |
 
 #### URL Parameters
@@ -497,8 +497,8 @@ DELETE
 
 #### Headers
 
-| Name  | Value                                                      | Required? |
-| ----- | ---------------------------------------------------------- | --------- |
+| Name    | Value                                                      | Required? |
+| ------- | ---------------------------------------------------------- | --------- |
 | x-token | An authentication token retrieved using the /auth service. | Yes       |
 
 #### URL Parameters
@@ -549,7 +549,7 @@ POST
 
 | Name         | Value                                                      | Required? |
 | ------------ | ---------------------------------------------------------- | --------- |
-| x-token        | An authentication token retrieved using the /auth service. | Yes       |
+| x-token      | An authentication token retrieved using the /auth service. | Yes       |
 | Content-Type | application/json                                           | Yes       |
 
 #### URL Parameters
@@ -565,7 +565,7 @@ None
 | listId            | int       | No        | A To-Do List id.                        |
 | notes             | string    | No        |                                         |
 | important         | boolean   | No        | Defaults to false.                      |
-| snoozeDate        | string    | No        |                                         |
+| snoozeDatetime    | string    | No        |                                         |
 | completedDatetime | string    | No        |                                         |
 
 #### Responses Examples
@@ -581,7 +581,7 @@ None
   "listId": null,
   "notes": null,
   "parentId": null,
-  "snoozeDate": null,
+  "snoozeDatetime": null,
   "summary": "My First To Do"
 }
 ```
@@ -616,8 +616,8 @@ GET
 
 #### Headers
 
-| Name  | Value                                                      | Required? |
-| ----- | ---------------------------------------------------------- | --------- |
+| Name    | Value                                                      | Required? |
+| ------- | ---------------------------------------------------------- | --------- |
 | x-token | An authentication token retrieved using the /auth service. | Yes       |
 
 #### URL Parameters
@@ -646,7 +646,7 @@ None
     "listId": null,
     "notes": null,
     "parentId": null,
-    "snoozeDate": null,
+    "snoozeDatetime": null,
     "summary": "My First To Do"
   },
   {
@@ -657,7 +657,7 @@ None
     "listId": null,
     "notes": "Think of better dummy data.",
     "parentId": null,
-    "snoozeDate": "2019-09-26",
+    "snoozeDatetime": "2019-09-26T00:00:00.000",
     "summary": "Another To Do"
   }
 ]
@@ -693,8 +693,8 @@ GET
 
 #### Headers
 
-| Name  | Value                                                      | Required? |
-| ----- | ---------------------------------------------------------- | --------- |
+| Name    | Value                                                      | Required? |
+| ------- | ---------------------------------------------------------- | --------- |
 | x-token | An authentication token retrieved using the /auth service. | Yes       |
 
 #### URL Parameters
@@ -718,7 +718,7 @@ None
   "listId": null,
   "notes": null,
   "parentId": null,
-  "snoozeDate": null,
+  "snoozeDatetime": null,
   "summary": "My First To Do"
 }
 ```
@@ -753,7 +753,7 @@ PATCH
 
 | Name         | Value                                                      | Required? |
 | ------------ | ---------------------------------------------------------- | --------- |
-| x-token        | An authentication token retrieved using the /auth service. | Yes       |
+| x-token      | An authentication token retrieved using the /auth service. | Yes       |
 | Content-Type | application/json                                           | Yes       |
 
 #### URL Parameters
@@ -769,7 +769,7 @@ None
 | listId            | int       | No        | A To-Do List id.                        |
 | notes             | string    | No        |                                         |
 | important         | boolean   | No        |                                         |
-| snoozeDate        | string    | No        |                                         |
+| snoozeDatetime    | string    | No        |                                         |
 | completedDatetime | string    | No        |                                         |
 
 #### Responses Examples
@@ -785,7 +785,7 @@ None
   "listId": null,
   "notes": null,
   "parentId": null,
-  "snoozeDate": null,
+  "snoozeDatetime": null,
   "summary": "My First To Do - Updated"
 }
 ```
