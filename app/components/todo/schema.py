@@ -12,7 +12,7 @@ class ToDoSchema(Schema):
         allow_none=True, missing=None, data_key="completedDatetime"
     )
     important = fields.Bool(missing=False)
-    snooze_datetime = fields.Datetime(
+    snooze_datetime = fields.DateTime(
         allow_none=True, missing=None, data_key="snoozeDatetime"
     )
     created = fields.DateTime(dump_only=True)
