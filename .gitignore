@@ -126,3 +126,4 @@ dmypy.json
 # Custom
 dummy_data.py
 *.db
+.vscode
