@@ -56,4 +56,6 @@ class User(db.Model, Base):
             db.session.commit()
             return None
         else:
+            user.failed_login_attempts = 0
+            db.session.commit()
             return user
