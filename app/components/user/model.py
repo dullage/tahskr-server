@@ -51,7 +51,7 @@ class User(db.Model, Base):
             )  # TODO: Let the API consumer know and allow them to reset.
         if hash_password(password, password_salt) != user.password:
             user.failed_login_attempts += 1
-            if user.failed_login_attempts >= 3:
+            if user.failed_login_attempts >= 5:
                 user.locked = True
             db.session.commit()
             return None
