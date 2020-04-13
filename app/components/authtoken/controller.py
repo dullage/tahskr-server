@@ -30,6 +30,9 @@ def auth():
     if user is None:
         return api_message(lang.invalid_credentials, 401)
 
+    # Data Cleanse
+    AuthToken.delete_expired()
+
     # Create and Return AuthToken
     token = AuthToken(user.id)
     return jsonify(AuthTokenSchema().dump(token))
