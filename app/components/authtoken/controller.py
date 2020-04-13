@@ -2,6 +2,7 @@ from flask import Blueprint, g, jsonify
 from marshmallow.exceptions import ValidationError
 
 import language as lang
+from components.system.model import System
 from components.user.model import User
 from components.user.schema import UserSchema
 from helpers import api_message, json_required
@@ -22,7 +23,10 @@ def auth():
         return api_message(e.messages, 400)
 
     # Authenticate Credentials
-    user = User.authenticate(data["email_address"], data["password"])
+    password_salt = System.get_password_salt()
+    user = User.authenticate(
+        data["email_address"], data["password"], password_salt
+    )
     if user is None:
         return api_message(lang.invalid_credentials, 401)
 

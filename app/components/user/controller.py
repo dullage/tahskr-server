@@ -3,6 +3,7 @@ from marshmallow import ValidationError
 
 import language as lang
 from components.authtoken.model import AuthToken
+from components.system.model import System
 from helpers import api_message, json_required
 
 from .model import User
@@ -23,7 +24,8 @@ def user():
         return api_message(e.messages, 400)
 
     # Create and Return User
-    user = User(data["email_address"], data["password"])
+    password_salt = System.get_password_salt()
+    user = User(data["email_address"], data["password"], password_salt)
     return jsonify(user_schema.dump(user)), 201
 
 

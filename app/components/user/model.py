@@ -2,7 +2,7 @@ from datetime import datetime
 
 from components.base.model import Base
 from helpers import hash_password
-from shared import PASSWORD_SALT, db
+from shared import db
 
 
 class User(db.Model, Base):
@@ -16,9 +16,9 @@ class User(db.Model, Base):
     config = db.Column(db.PickleType)
     created = db.Column(db.DateTime, nullable=False)
 
-    def __init__(self, email_address, password):
+    def __init__(self, email_address, password, password_salt):
         self.email_address = email_address.lower()
-        self.password = hash_password(password, PASSWORD_SALT)
+        self.password = hash_password(password, password_salt)
         self.failed_login_attempts = 0
         self.locked = False
         self.created = datetime.utcnow()
@@ -31,7 +31,7 @@ class User(db.Model, Base):
         return cls.query.filter_by(email_address=email_address.lower()).first()
 
     @classmethod
-    def authenticate(cls, email_address, password):
+    def authenticate(cls, email_address, password, password_salt):
         """TODO
 
         Args:
@@ -49,7 +49,7 @@ class User(db.Model, Base):
             return (
                 None
             )  # TODO: Let the API consumer know and allow them to reset.
-        if hash_password(password, PASSWORD_SALT) != user.password:
+        if hash_password(password, password_salt) != user.password:
             user.failed_login_attempts += 1
             if user.failed_login_attempts >= 3:
                 user.locked = True
