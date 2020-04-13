@@ -12,7 +12,7 @@ from .schema import UserSchema
 user_blueprint = Blueprint("user_blueprint", __name__)
 
 
-@user_blueprint.route("/api/user", methods=["POST"])
+@user_blueprint.route("/user", methods=["POST"])
 @json_required
 def user():
     user_schema = UserSchema()
@@ -30,7 +30,7 @@ def user():
 
 
 # TODO: Add DELETE method
-@user_blueprint.route("/api/user/<int:user_id>", methods=["GET", "PATCH"])
+@user_blueprint.route("/user/<int:user_id>", methods=["GET", "PATCH"])
 @AuthToken.required
 @json_required
 def user_by_id(user_id):

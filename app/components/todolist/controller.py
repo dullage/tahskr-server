@@ -12,7 +12,7 @@ from .schema import ToDoListSchema
 todolist_blueprint = Blueprint("todolist_blueprint", __name__)
 
 
-@todolist_blueprint.route("/api/todolist", methods=["GET", "POST"])
+@todolist_blueprint.route("/todolist", methods=["GET", "POST"])
 @AuthToken.required
 @json_required
 def todolist():
@@ -38,7 +38,7 @@ def todolist():
 
 
 @todolist_blueprint.route(
-    "/api/todolist/<int:todolist_id>", methods=["GET", "PATCH", "DELETE"]
+    "/todolist/<int:todolist_id>", methods=["GET", "PATCH", "DELETE"]
 )
 @AuthToken.required
 @json_required

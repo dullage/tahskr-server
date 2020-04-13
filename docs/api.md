@@ -29,7 +29,7 @@ POST
 
 #### URL
 
-/api/user
+/user
 
 #### Headers
 
@@ -82,7 +82,7 @@ GET
 
 #### URL
 
-/api/user/<id>
+/user/<id>
 
 #### Headers
 
@@ -137,7 +137,7 @@ PATCH
 
 #### URL
 
-/api/user/<id>
+/user/<id>
 
 #### Headers
 
@@ -268,7 +268,7 @@ POST
 
 #### URL
 
-/api/todolist
+/todolist
 
 #### Headers
 
@@ -325,7 +325,7 @@ GET
 
 #### URL
 
-/api/todolist
+/todolist
 
 #### Headers
 
@@ -376,7 +376,7 @@ GET
 
 #### URL
 
-/api/todolist/<id>
+/todolist/<id>
 
 #### Headers
 
@@ -428,7 +428,7 @@ PATCH
 
 #### URL
 
-/api/todolist/<id>
+/todolist/<id>
 
 #### Headers
 
@@ -493,7 +493,7 @@ DELETE
 
 #### URL
 
-/api/todolist/<id>
+/todolist/<id>
 
 #### Headers
 
@@ -543,7 +543,7 @@ POST
 
 #### URL
 
-/api/todo
+/todo
 
 #### Headers
 
@@ -612,7 +612,7 @@ GET
 
 #### URL
 
-/api/todo
+/todo
 
 #### Headers
 
@@ -689,7 +689,7 @@ GET
 
 #### URL
 
-/api/todo/<id>
+/todo/<id>
 
 #### Headers
 
@@ -747,7 +747,7 @@ PATCH
 
 #### URL
 
-/api/todo/<id>
+/todo/<id>
 
 #### Headers
 
@@ -824,7 +824,7 @@ DELETE
 
 #### URL
 
-/api/todo/<id>
+/todo/<id>
 
 #### Headers
 

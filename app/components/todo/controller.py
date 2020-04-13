@@ -12,7 +12,7 @@ from .schema import ToDoSchema
 todo_blueprint = Blueprint("todo_blueprint", __name__)
 
 
-@todo_blueprint.route("/api/todo", methods=["GET", "POST"])
+@todo_blueprint.route("/todo", methods=["GET", "POST"])
 @AuthToken.required
 @json_required
 def todo():
@@ -73,7 +73,7 @@ def todo():
 
 
 @todo_blueprint.route(
-    "/api/todo/<int:todo_id>", methods=["GET", "PATCH", "DELETE"]
+    "/todo/<int:todo_id>", methods=["GET", "PATCH", "DELETE"]
 )
 @AuthToken.required
 @json_required
