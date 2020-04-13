@@ -23,7 +23,7 @@ def auth():
         return api_message(e.messages, 400)
 
     # Authenticate Credentials
-    password_salt = System.get_password_salt()
+    password_salt = System.get("password_salt")
     user = User.authenticate(
         data["email_address"], data["password"], password_salt
     )

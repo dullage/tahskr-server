@@ -2,7 +2,7 @@ from datetime import datetime
 
 from components.base.model import Base
 from helpers import setattrs
-from shared import db
+from db import db
 
 
 class ToDo(db.Model, Base):

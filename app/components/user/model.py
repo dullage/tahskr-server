@@ -2,7 +2,7 @@ from datetime import datetime
 
 from components.base.model import Base
 from helpers import hash_password
-from shared import db
+from db import db
 
 
 class User(db.Model, Base):

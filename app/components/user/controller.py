@@ -24,7 +24,7 @@ def user():
         return api_message(e.messages, 400)
 
     # Create and Return User
-    password_salt = System.get_password_salt()
+    password_salt = System.get("password_salt")
     user = User(data["email_address"], data["password"], password_salt)
     return jsonify(user_schema.dump(user)), 201
 

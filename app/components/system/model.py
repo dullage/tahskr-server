@@ -1,7 +1,5 @@
-import secrets
-
 from helpers import setattrs
-from shared import db
+from db import db
 
 
 class System(db.Model):
@@ -28,15 +26,8 @@ class System(db.Model):
         return self.id
 
     @classmethod
-    def get_by_key(cls, key):
-        return cls.query.get(key)
-
-    @classmethod
-    def get_password_salt(cls):
-        key = "password_salt"
-        password_salt = cls.get_by_key(key)
-        if password_salt is None:
-            password_salt = cls(
-                {"key": key, "value": secrets.token_urlsafe(32)}
-            )
-        return password_salt.value
+    def get(cls, key):
+        row = cls.query.get(key)
+        if row is None:
+            return None
+        return row.value

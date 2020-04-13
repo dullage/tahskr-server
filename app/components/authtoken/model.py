@@ -5,7 +5,7 @@ from uuid import uuid4
 from flask import g, jsonify, request
 
 from components.base.model import Base
-from shared import db
+from db import db
 
 
 class AuthToken(db.Model, Base):
