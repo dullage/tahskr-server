@@ -6,6 +6,7 @@ All dates and datetimes should be formatted to ISO 8601 standards.
 
 ## Methods
 
+- [System Information](#system-information)
 - [Create a User](#create-a-user)
 - [Get a User](#get-a-user)
 - [Update a User](#update-a-user)
@@ -20,6 +21,39 @@ All dates and datetimes should be formatted to ISO 8601 standards.
 - [Get a To-Do](#get-a-to-do)
 - [Update a To-Do](#update-a-to-do)
 - [Delete a To-Do](#delete-a-to-do)
+
+## System Information
+
+#### Method
+
+GET
+
+#### URL
+
+/
+
+#### Headers
+
+None
+
+#### URL Parameters
+
+None
+
+#### Data Parameters
+
+None
+
+#### Response Examples
+
+![](https://img.shields.io/badge/200-OK-4DC292?style=flat-square)
+
+```json
+{
+  "appVersion": "20.4.13", 
+  "schemaVersion": "1"
+}
+```
 
 ## Create a User
 
