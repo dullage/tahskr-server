@@ -27,7 +27,4 @@ class System(db.Model):
 
     @classmethod
     def get(cls, key):
-        row = cls.query.get(key)
-        if row is None:
-            return None
-        return row.value
+        return cls.query.get(key)

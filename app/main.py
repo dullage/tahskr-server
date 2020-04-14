@@ -26,7 +26,7 @@ def index():
     return jsonify(
         {
             "appVersion": __version__,
-            "schemaVersion": System.get("schema_version"),
+            "schemaVersion": System.get("schema_version").value,
         }
     )
 
