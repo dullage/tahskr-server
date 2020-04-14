@@ -25,7 +25,7 @@ def user():
 
     # Create and Return User
     password_salt = System.get("password_salt").value
-    user = User(data["email_address"], data["password"], password_salt)
+    user = User(data["username"], data["password"], password_salt)
     return jsonify(user_schema.dump(user)), 201
 
 

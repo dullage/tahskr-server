@@ -50,7 +50,7 @@ None
 
 ```json
 {
-  "appVersion": "20.4.13", 
+  "appVersion": "20.4.13",
   "schemaVersion": "1"
 }
 ```
@@ -77,11 +77,11 @@ None
 
 #### Data Parameters
 
-| Name         | Data Type | Required? | Details                        |
-| ------------ | --------- | --------- | ------------------------------ |
-| emailAddress | string    | Yes       | Must be a valid email address. |
-| password     | string    | Yes       |                                |
-| config       | object    | No        |                                |
+| Name     | Data Type | Required? | Details |
+| -------- | --------- | --------- | ------- |
+| username | string    | Yes       |         |
+| password | string    | Yes       |         |
+| config   | object    | No        |         |
 
 #### Response Examples
 
@@ -93,7 +93,7 @@ None
     "showCompleted": false
   },
   "created": "2019-09-25T13:13:14.702375",
-  "emailAddress": "john@example.com",
+  "username": "john@example.com",
   "id": 243
 }
 ```
@@ -103,7 +103,7 @@ None
 ```json
 {
   "message": {
-    "emailAddress": ["Not a valid email address."]
+    "password": ["Missing data for required field."]
   }
 }
 ```
@@ -142,7 +142,7 @@ None
     "showCompleted": false
   },
   "created": "2019-09-25T13:13:14.702375",
-  "emailAddress": "john@example.com",
+  "username": "john@example.com",
   "id": 243
 }
 ```
@@ -186,11 +186,11 @@ None
 
 #### Data Parameters
 
-| Name         | Data Type | Required? | Details                        |
-| ------------ | --------- | --------- | ------------------------------ |
-| emailAddress | string    | No        | Must be a valid email address. |
-| password     | string    | No        | Cannot be null.                |
-| config       | object    | No        |                                |
+| Name     | Data Type | Required? | Details         |
+| -------- | --------- | --------- | --------------- |
+| username | string    | No        | Cannot be null. |
+| password | string    | No        | Cannot be null. |
+| config   | object    | No        |                 |
 
 #### Responses Examples
 
@@ -202,7 +202,7 @@ None
     "showCompleted": false
   },
   "created": "2019-09-25T13:13:14.702375",
-  "emailAddress": "john@example.com",
+  "username": "john@example.com",
   "id": 243
 }
 ```
@@ -257,10 +257,10 @@ None
 
 #### Data Parameters
 
-| Name         | Data Type | Required? | Details |
-| ------------ | --------- | --------- | ------- |
-| emailAddress | string    | Yes       |         |
-| password     | string    | Yes       |         |
+| Name     | Data Type | Required? | Details |
+| -------- | --------- | --------- | ------- |
+| username | string    | Yes       |         |
+| password | string    | Yes       |         |
 
 #### Responses Examples
 
@@ -281,7 +281,7 @@ None
 ```json
 {
   "message": {
-    "emailAddress": ["Missing data for required field."]
+    "username": ["Missing data for required field."]
   }
 }
 ```

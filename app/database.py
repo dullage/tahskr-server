@@ -2,7 +2,7 @@ import secrets
 
 from components.system.model import System
 
-CURRENT_SCHEMA_VERSION = "1"
+CURRENT_SCHEMA_VERSION = "2"
 
 
 def init(db, app):
@@ -26,3 +26,5 @@ def init(db, app):
             System(
                 {"key": schema_version_key, "value": CURRENT_SCHEMA_VERSION}
             )
+        elif db_schema_version.value != CURRENT_SCHEMA_VERSION:
+            db_schema_version.update({"value": CURRENT_SCHEMA_VERSION})

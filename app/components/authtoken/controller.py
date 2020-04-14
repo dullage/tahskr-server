@@ -25,7 +25,7 @@ def auth():
     # Authenticate Credentials
     password_salt = System.get("password_salt").value
     user = User.authenticate(
-        data["email_address"], data["password"], password_salt
+        data["username"], data["password"], password_salt
     )
     if user is None:
         return api_message(lang.invalid_credentials, 401)
