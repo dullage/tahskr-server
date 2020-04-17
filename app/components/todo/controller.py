@@ -13,9 +13,9 @@ todo_blueprint = Blueprint("todo_blueprint", __name__)
 
 
 @todo_blueprint.route("/todo", methods=["GET", "POST"])
-@AuthToken.required
+@AuthToken.authenticate_user
 @json_required
-def todo():
+def todo(auth_user_id):
     # GET
     if request.method == "GET":
         # Validate Data
@@ -37,7 +37,7 @@ def todo():
 
         # Get and Return ToDos
         todos = ToDo.get_multiple_for_user(
-            g.user_id,
+            auth_user_id,
             parent_id=data["parent_id"],
             completed=data["completed"],
             exclude_snoozed=data["exclude_snoozed"],
@@ -56,29 +56,31 @@ def todo():
         # Validate the user owns the declared parent ToDo
         if (
             data["parent_id"] is not None
-            and ToDo.get_by_id_for_user(g.user_id, data["parent_id"]) is None
+            and ToDo.get_by_id_for_user(auth_user_id, data["parent_id"])
+            is None
         ):
             return api_message(lang.parent_id_not_found, 400)
 
         # Validate the user owns the declared ToDoList
         if (
             data["list_id"] is not None
-            and ToDoList.get_by_id_for_user(g.user_id, data["list_id"]) is None
+            and ToDoList.get_by_id_for_user(auth_user_id, data["list_id"])
+            is None
         ):
             return api_message(lang.list_id_not_found, 400)
 
         # Create and Return ToDo
-        todo = ToDo(g.user_id, data)
+        todo = ToDo(auth_user_id, data)
         return jsonify(ToDoSchema().dump(todo)), 201
 
 
 @todo_blueprint.route(
     "/todo/<int:todo_id>", methods=["GET", "PATCH", "DELETE"]
 )
-@AuthToken.required
+@AuthToken.authenticate_user
 @json_required
-def todo_by_id(todo_id):
-    todo = ToDo.get_by_id_for_user(g.user_id, todo_id)
+def todo_by_id(todo_id, auth_user_id):
+    todo = ToDo.get_by_id_for_user(auth_user_id, todo_id)
     if todo is None:
         return api_message(lang.not_found, 404)
 
@@ -100,7 +102,8 @@ def todo_by_id(todo_id):
         if (
             "parent_id" in data
             and data["parent_id"] is not None
-            and ToDo.get_by_id_for_user(g.user_id, data["parent_id"]) is None
+            and ToDo.get_by_id_for_user(auth_user_id, data["parent_id"])
+            is None
         ):
             return api_message(lang.parent_id_not_found, 400)
 
@@ -108,7 +111,8 @@ def todo_by_id(todo_id):
         if (
             "list_id" in data
             and data["list_id"] is not None
-            and ToDoList.get_by_id_for_user(g.user_id, data["list_id"]) is None
+            and ToDoList.get_by_id_for_user(auth_user_id, data["list_id"])
+            is None
         ):
             return api_message(lang.list_id_not_found, 400)
 

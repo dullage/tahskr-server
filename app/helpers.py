@@ -1,3 +1,4 @@
+import os
 from functools import wraps
 from hashlib import sha256
 
@@ -47,3 +48,10 @@ def setattrs(obj, attrs):
     for key, value in attrs.items():
         setattr(obj, key, value)
     return obj
+
+
+def check_admin_password(decl_admin_password):
+    admin_password = os.environ.get("TAHSKR_ADMIN_PASSWORD")
+    if admin_password is not None and admin_password == decl_admin_password:
+        return True
+    return False

@@ -28,7 +28,7 @@ def auth():
         data["username"], data["password"], password_salt
     )
     if user is None:
-        return api_message(lang.invalid_credentials, 401)
+        return api_message(lang.credentials_invalid, 401)
 
     # Data Cleanse
     AuthToken.delete_expired()

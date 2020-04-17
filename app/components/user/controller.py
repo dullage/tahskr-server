@@ -13,6 +13,7 @@ user_blueprint = Blueprint("user_blueprint", __name__)
 
 
 @user_blueprint.route("/user", methods=["POST"])
+@AuthToken.authenticate_admin
 @json_required
 def user():
     user_schema = UserSchema()
@@ -31,14 +32,15 @@ def user():
 
 # TODO: Add DELETE method
 @user_blueprint.route("/user/<int:user_id>", methods=["GET", "PATCH"])
-@AuthToken.required
+@AuthToken.authenticate_user_or_admin
 @json_required
-def user_by_id(user_id):
-    # If the user is trying to access data for another user return a 404
-    if user_id != g.user_id:
+def user_by_id(user_id, auth_user_id):
+    # If the user is trying to access data for another user return a 404.
+    # Note: An auth_user_id of 0 denotes an authorised admin.
+    if user_id != auth_user_id and auth_user_id != 0:
         return api_message(lang.not_found, 404)
 
-    user = User.get_by_id(g.user_id)
+    user = User.get_by_id(user_id)
     if user is None:
         return api_message(lang.not_found, 404)
 

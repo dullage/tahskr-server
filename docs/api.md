@@ -1,7 +1,5 @@
 # tahskr API
 
-The tahskr API is a user based API in that once authenticated as a user, all methods will be limited to data owned by that user.
-
 All dates and datetimes should be formatted to ISO 8601 standards.
 
 ## Methods
@@ -67,9 +65,10 @@ POST
 
 #### Headers
 
-| Name         | Value            | Required? |
-| ------------ | ---------------- | --------- |
-| Content-Type | application/json | Yes       |
+| Name         | Value                                                                          | Required? |
+| ------------ | ------------------------------------------------------------------------------ | --------- |
+| Content-Type | application/json                                                               | Yes       |
+| x-admin      | The admin password set using the environment variable "TAHSKR_ADMIN_PASSWORD". | Yes       |
 
 #### URL Parameters
 
@@ -120,9 +119,10 @@ GET
 
 #### Headers
 
-| Name    | Value                                                      | Required? |
-| ------- | ---------------------------------------------------------- | --------- |
-| x-token | An authentication token retrieved using the /auth service. | Yes       |
+| Name    | Value                                                                         | Required?                                                                                                      |
+| ------- | ----------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------- |
+| x-token | An authentication token retrieved using the /auth service.                    | Either x-token or x-admin required. x-token will only authorise access to the user for which the token is for. |
+| x-admin | The admin password set using the environment variable "TAHSKR_ADMIN_PASSWORD" | As above.                                                                                                      |
 
 #### URL Parameters
 
@@ -175,10 +175,11 @@ PATCH
 
 #### Headers
 
-| Name         | Value                                                      | Required? |
-| ------------ | ---------------------------------------------------------- | --------- |
-| x-token      | An authentication token retrieved using the /auth service. | Yes       |
-| Content-Type | application/json                                           | Yes       |
+| Name         | Value                                                                         | Required?                                                                                                      |
+| ------------ | ----------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------- |
+| x-token      | An authentication token retrieved using the /auth service.                    | Either x-token or x-admin required. x-token will only authorise access to the user for which the token is for. |
+| x-admin      | The admin password set using the environment variable "TAHSKR_ADMIN_PASSWORD" | As above.                                                                                                      |
+| Content-Type | application/json                                                              | Yes                                                                                                            |
 
 #### URL Parameters
 
