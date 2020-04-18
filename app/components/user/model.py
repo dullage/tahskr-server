@@ -16,7 +16,7 @@ class User(db.Model, Base):
     config = db.Column(db.PickleType)
     created = db.Column(db.DateTime, nullable=False)
 
-    def __init__(self, username, password, password_salt):
+    def __init__(self, username, password, password_salt, config=None):
         self.username = username.lower()
         self.password = hash_password(password, password_salt)
         self.failed_login_attempts = 0
