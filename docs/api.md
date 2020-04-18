@@ -8,6 +8,7 @@ All dates and datetimes should be formatted to ISO 8601 standards.
 - [Create a User](#create-a-user)
 - [Get a User](#get-a-user)
 - [Update a User](#update-a-user)
+- [Delete a User](#delete-a-user)
 - [Authenticate](#authenticate)
 - [Create a To-Do List](#create-a-to-do-list)
 - [Get All To-Do Lists](#get-all-to-do-lists)
@@ -104,6 +105,14 @@ None
   "message": {
     "password": ["Missing data for required field."]
   }
+}
+```
+
+![](https://img.shields.io/badge/401-Unauthorised-DC555C?style=flat-square)
+
+```json
+{
+  "message": "Incorrect admin password."
 }
 ```
 
@@ -215,6 +224,57 @@ None
   "message": {
     "password": ["Field may not be null."]
   }
+}
+```
+
+![](https://img.shields.io/badge/401-Unauthorised-DC555C?style=flat-square)
+
+```json
+{
+  "message": "Authentication token invalid."
+}
+```
+
+![](https://img.shields.io/badge/404-Not%20Found-DC555C?style=flat-square)
+
+```json
+{
+  "message": "The requested resource was not found."
+}
+```
+
+## Delete a User
+
+#### Method
+
+DELETE
+
+#### URL
+
+/user/<id>
+
+#### Headers
+
+| Name    | Value                                                                         | Required?                                                                                                      |
+| ------- | ----------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------- |
+| x-token | An authentication token retrieved using the /auth service.                    | Either x-token or x-admin required. x-token will only authorise access to the user for which the token is for. |
+| x-admin | The admin password set using the environment variable "TAHSKR_ADMIN_PASSWORD" | As above.                                                                                                      |
+
+#### URL Parameters
+
+None
+
+#### Data Parameters
+
+None
+
+#### Responses Examples
+
+![](https://img.shields.io/badge/200-OK-4DC292?style=flat-square)
+
+```json
+{
+  "message": "Deletion successful."
 }
 ```
 
