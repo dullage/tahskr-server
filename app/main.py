@@ -15,7 +15,7 @@ from db import db
 app = Flask(__name__)
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 app.config["SQLALCHEMY_DATABASE_URI"] = os.environ.get(
-    "DATABASE_URL", "sqlite:///database.db"
+    "DATABASE_URL", "sqlite:///./data/database.db"
 )
 
 database.init(db, app)
