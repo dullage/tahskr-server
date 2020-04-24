@@ -1,0 +1,55 @@
+os: linux
+dist: xenial
+language: generic
+
+env:
+  global:
+    - "GIT_REPO_SLUG=dullage/tahskr-server"
+    - "DOCKER_REPO_SLUG=dullage/tahskr-server"
+    - "VERSION_BUMP_MESSAGE_PREFIX='Travis CI: Bump version to'"
+# secret:
+#   - DOCKER_USERNAME
+#   - DOCKER_PASSWORD
+#   - GITHUB_TOKEN
+
+services:
+  - docker
+
+install:
+  - sudo apt update
+  - sudo apt -y install jq
+
+if: tag IS NOT present
+
+stages:
+  - name: Test Build
+    if: commit_message !~ env(VERSION_BUMP_MESSAGE_PREFIX)
+
+  - name: Bump Version
+    if: branch = master && type = push && commit_message !~ env(VERSION_BUMP_MESSAGE_PREFIX)
+
+  - name: Build and Deploy
+    if: branch = master && type = push && commit_message =~ env(VERSION_BUMP_MESSAGE_PREFIX)
+  - name: Crete Manifest and Deploy
+    if: branch = master && type = push && commit_message =~ env(VERSION_BUMP_MESSAGE_PREFIX)
+
+jobs:
+  include:
+    - stage: Test Build
+      arch: amd64
+      script: bash ./.travis/build.sh amd64
+    - arch: arm64
+      script: bash ./.travis/build.sh arm64
+
+    - stage: Bump Version
+      arch: amd64
+      script: bash ./.travis/bump_version.sh
+
+    - stage: Build and Deploy
+      arch: amd64
+      script: bash ./.travis/build.sh amd64 deploy
+    - arch: arm64
+      script: bash ./.travis/build.sh arm64 deploy
+    - stage: Crete Manifest and Deploy
+      arch: amd64
+      script: bash ./.travis/manifest.sh
