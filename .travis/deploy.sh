@@ -6,6 +6,7 @@ if [[ $1 == "dev" ]]
 then
     DEPLOY_SCRIPT=$DEPLOY_SCRIPT_DEV
 elif [[ $1 == "prod" ]]
+then
     DEPLOY_SCRIPT=$DEPLOY_SCRIPT_PROD
 else
     DEPLOY_SCRIPT="echo No Script Specified!"
