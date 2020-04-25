@@ -15,6 +15,7 @@ env:
 #   - encrypted_7df0bf92a043_key
 #   - DEPLOY_SCRIPT_DEV
 #   - DEPLOY_SCRIPT_PROD
+#   - DEPLOY_HOST_IP
 
 services:
   - docker
@@ -65,4 +66,5 @@ jobs:
 
     - stage: Deploy Dev
       arch: amd64
+      install: skip
       script: bash ./.travis/deploy.sh dev
