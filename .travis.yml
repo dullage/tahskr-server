@@ -11,6 +11,11 @@ env:
 #   - DOCKER_USERNAME
 #   - DOCKER_PASSWORD
 #   - GITHUB_TOKEN
+#   - encrypted_7df0bf92a043_iv
+#   - encrypted_7df0bf92a043_key
+#   - DEPLOY_SCRIPT_DEV
+#   - DEPLOY_SCRIPT_PROD
+#   - DEPLOY_HOST_IP
 
 services:
   - docker
@@ -28,10 +33,14 @@ stages:
   - name: Bump Version
     if: branch = master && type = push && commit_message !~ env(VERSION_BUMP_MESSAGE_PREFIX)
 
-  - name: Build and Deploy
+  - name: Build and Push
     if: branch = master && type = push && commit_message =~ env(VERSION_BUMP_MESSAGE_PREFIX)
-  - name: Crete Manifest and Deploy
+
+  - name: Crete Manifest and Push
     if: branch = master && type = push && commit_message =~ env(VERSION_BUMP_MESSAGE_PREFIX)
+
+  - name: Deploy Dev
+    if: branch = develop && type = push
 
 jobs:
   include:
@@ -45,11 +54,17 @@ jobs:
       arch: amd64
       script: bash ./.travis/bump_version.sh
 
-    - stage: Build and Deploy
+    - stage: Build and Push
       arch: amd64
-      script: bash ./.travis/build.sh amd64 deploy
+      script: bash ./.travis/build.sh amd64 push
     - arch: arm64
-      script: bash ./.travis/build.sh arm64 deploy
-    - stage: Crete Manifest and Deploy
+      script: bash ./.travis/build.sh arm64 push
+
+    - stage: Crete Manifest and Push
       arch: amd64
       script: bash ./.travis/manifest.sh
+
+    - stage: Deploy Dev
+      arch: amd64
+      install: skip
+      script: bash ./.travis/deploy.sh dev
