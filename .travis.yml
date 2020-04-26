@@ -39,6 +39,9 @@ stages:
   - name: Crete Manifest and Push
     if: branch = master && type = push && commit_message =~ env(VERSION_BUMP_MESSAGE_PREFIX)
 
+  - name: Deploy Prod
+    if: branch = master && type = push && commit_message =~ env(VERSION_BUMP_MESSAGE_PREFIX)
+
   - name: Deploy Dev
     if: branch = develop && type = push
 
@@ -63,6 +66,11 @@ jobs:
     - stage: Crete Manifest and Push
       arch: amd64
       script: bash ./.travis/manifest.sh
+
+    - stage: Deploy Prod
+      arch: amd64
+      install: skip
+      script: bash ./.travis/deploy.sh prod
 
     - stage: Deploy Dev
       arch: amd64
