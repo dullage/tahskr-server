@@ -2,7 +2,7 @@
 
 set -ev
 
-VERSION=$(cat version.json | jq -r ".version")
+VERSION=$(cat $TRAVIS_BUILD_DIR/app/version.json | jq -r ".version")
 ARCH=$1
 PUSH=$2
 
