@@ -29,4 +29,4 @@ for version_file in version_file_list:
         content["version"] = new_version
         f.seek(0)
         f.truncate()
-        f.write(json.dumps(content))
+        f.write(json.dumps(content, indent=2))

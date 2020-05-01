@@ -1,5 +1,3 @@
-__version__ = "20.4.13"
-
 import os
 
 from flask import Flask, jsonify
@@ -11,12 +9,19 @@ from components.todo.controller import todo_blueprint
 from components.todolist.controller import todolist_blueprint
 from components.user.controller import user_blueprint
 from db import db
+from helpers import get_version, init_database_url
+
+APP_DIR_PATH = os.path.dirname(__file__)
+
+__version__ = get_version(APP_DIR_PATH)
+
+database_url = os.environ.get("DATABASE_URL")
+if database_url is None:
+    database_url = init_database_url(APP_DIR_PATH)
 
 app = Flask(__name__)
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
-app.config["SQLALCHEMY_DATABASE_URI"] = os.environ.get(
-    "DATABASE_URL", "sqlite:///./data/database.db"
-)
+app.config["SQLALCHEMY_DATABASE_URI"] = database_url
 
 database.init(db, app)
 

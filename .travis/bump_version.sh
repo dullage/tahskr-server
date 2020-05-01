@@ -7,7 +7,7 @@ git config --global user.name "Travis CI"
 
 git checkout master
 
-python ./.travis/bump_version.py version.json
+python ./.travis/bump_version.py ./app/version.json
 
 VERSION=$(cat version.json | jq -r ".version")
 
