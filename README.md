@@ -1,5 +1,3 @@
-![](https://www.tahskr.com/mstile-70x70.png)
-
 # tahskr-server
 
 * [What is tahskr?](#what-is-tahskr)
