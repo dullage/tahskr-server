@@ -1,14 +1,14 @@
 # tahskr API
 
-The tahskr API is a user based API in that once authenticated as a user, all methods will be limited to data owned by that user.
-
 All dates and datetimes should be formatted to ISO 8601 standards.
 
 ## Methods
 
+- [System Information](#system-information)
 - [Create a User](#create-a-user)
 - [Get a User](#get-a-user)
 - [Update a User](#update-a-user)
+- [Delete a User](#delete-a-user)
 - [Authenticate](#authenticate)
 - [Create a To-Do List](#create-a-to-do-list)
 - [Get All To-Do Lists](#get-all-to-do-lists)
@@ -21,6 +21,39 @@ All dates and datetimes should be formatted to ISO 8601 standards.
 - [Update a To-Do](#update-a-to-do)
 - [Delete a To-Do](#delete-a-to-do)
 
+## System Information
+
+#### Method
+
+GET
+
+#### URL
+
+/
+
+#### Headers
+
+None
+
+#### URL Parameters
+
+None
+
+#### Data Parameters
+
+None
+
+#### Response Examples
+
+![](https://img.shields.io/badge/200-OK-4DC292?style=flat-square)
+
+```json
+{
+  "appVersion": "20.4.13",
+  "schemaVersion": "1"
+}
+```
+
 ## Create a User
 
 #### Method
@@ -29,13 +62,14 @@ POST
 
 #### URL
 
-/api/user
+/user
 
 #### Headers
 
-| Name         | Value            | Required? |
-| ------------ | ---------------- | --------- |
-| Content-Type | application/json | Yes       |
+| Name         | Value                                                                          | Required? |
+| ------------ | ------------------------------------------------------------------------------ | --------- |
+| Content-Type | application/json                                                               | Yes       |
+| x-admin      | The admin password set using the environment variable "TAHSKR_ADMIN_PASSWORD". | Yes       |
 
 #### URL Parameters
 
@@ -43,11 +77,11 @@ None
 
 #### Data Parameters
 
-| Name         | Data Type | Required? | Details                        |
-| ------------ | --------- | --------- | ------------------------------ |
-| emailAddress | string    | Yes       | Must be a valid email address. |
-| password     | string    | Yes       |                                |
-| config       | object    | No        |                                |
+| Name     | Data Type | Required? | Details |
+| -------- | --------- | --------- | ------- |
+| username | string    | Yes       |         |
+| password | string    | Yes       |         |
+| config   | object    | No        |         |
 
 #### Response Examples
 
@@ -59,7 +93,7 @@ None
     "showCompleted": false
   },
   "created": "2019-09-25T13:13:14.702375",
-  "emailAddress": "john@example.com",
+  "username": "john@example.com",
   "id": 243
 }
 ```
@@ -69,8 +103,16 @@ None
 ```json
 {
   "message": {
-    "emailAddress": ["Not a valid email address."]
+    "password": ["Missing data for required field."]
   }
+}
+```
+
+![](https://img.shields.io/badge/401-Unauthorised-DC555C?style=flat-square)
+
+```json
+{
+  "message": "Incorrect admin password."
 }
 ```
 
@@ -82,13 +124,14 @@ GET
 
 #### URL
 
-/api/user/<id>
+/user/<id>
 
 #### Headers
 
-| Name    | Value                                                      | Required? |
-| ------- | ---------------------------------------------------------- | --------- |
-| x-token | An authentication token retrieved using the /auth service. | Yes       |
+| Name    | Value                                                                         | Required?                                                                                                      |
+| ------- | ----------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------- |
+| x-token | An authentication token retrieved using the /auth service.                    | Either x-token or x-admin required. x-token will only authorise access to the user for which the token is for. |
+| x-admin | The admin password set using the environment variable "TAHSKR_ADMIN_PASSWORD" | As above.                                                                                                      |
 
 #### URL Parameters
 
@@ -108,7 +151,7 @@ None
     "showCompleted": false
   },
   "created": "2019-09-25T13:13:14.702375",
-  "emailAddress": "john@example.com",
+  "username": "john@example.com",
   "id": 243
 }
 ```
@@ -137,14 +180,15 @@ PATCH
 
 #### URL
 
-/api/user/<id>
+/user/<id>
 
 #### Headers
 
-| Name         | Value                                                      | Required? |
-| ------------ | ---------------------------------------------------------- | --------- |
-| x-token      | An authentication token retrieved using the /auth service. | Yes       |
-| Content-Type | application/json                                           | Yes       |
+| Name         | Value                                                                         | Required?                                                                                                      |
+| ------------ | ----------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------- |
+| x-token      | An authentication token retrieved using the /auth service.                    | Either x-token or x-admin required. x-token will only authorise access to the user for which the token is for. |
+| x-admin      | The admin password set using the environment variable "TAHSKR_ADMIN_PASSWORD" | As above.                                                                                                      |
+| Content-Type | application/json                                                              | Yes                                                                                                            |
 
 #### URL Parameters
 
@@ -152,11 +196,11 @@ None
 
 #### Data Parameters
 
-| Name         | Data Type | Required? | Details                        |
-| ------------ | --------- | --------- | ------------------------------ |
-| emailAddress | string    | No        | Must be a valid email address. |
-| password     | string    | No        | Cannot be null.                |
-| config       | object    | No        |                                |
+| Name     | Data Type | Required? | Details         |
+| -------- | --------- | --------- | --------------- |
+| username | string    | No        | Cannot be null. |
+| password | string    | No        | Cannot be null. |
+| config   | object    | No        |                 |
 
 #### Responses Examples
 
@@ -168,7 +212,7 @@ None
     "showCompleted": false
   },
   "created": "2019-09-25T13:13:14.702375",
-  "emailAddress": "john@example.com",
+  "username": "john@example.com",
   "id": 243
 }
 ```
@@ -180,6 +224,57 @@ None
   "message": {
     "password": ["Field may not be null."]
   }
+}
+```
+
+![](https://img.shields.io/badge/401-Unauthorised-DC555C?style=flat-square)
+
+```json
+{
+  "message": "Authentication token invalid."
+}
+```
+
+![](https://img.shields.io/badge/404-Not%20Found-DC555C?style=flat-square)
+
+```json
+{
+  "message": "The requested resource was not found."
+}
+```
+
+## Delete a User
+
+#### Method
+
+DELETE
+
+#### URL
+
+/user/<id>
+
+#### Headers
+
+| Name    | Value                                                                         | Required?                                                                                                      |
+| ------- | ----------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------- |
+| x-token | An authentication token retrieved using the /auth service.                    | Either x-token or x-admin required. x-token will only authorise access to the user for which the token is for. |
+| x-admin | The admin password set using the environment variable "TAHSKR_ADMIN_PASSWORD" | As above.                                                                                                      |
+
+#### URL Parameters
+
+None
+
+#### Data Parameters
+
+None
+
+#### Responses Examples
+
+![](https://img.shields.io/badge/200-OK-4DC292?style=flat-square)
+
+```json
+{
+  "message": "Deletion successful."
 }
 ```
 
@@ -223,10 +318,10 @@ None
 
 #### Data Parameters
 
-| Name         | Data Type | Required? | Details |
-| ------------ | --------- | --------- | ------- |
-| emailAddress | string    | Yes       |         |
-| password     | string    | Yes       |         |
+| Name     | Data Type | Required? | Details |
+| -------- | --------- | --------- | ------- |
+| username | string    | Yes       |         |
+| password | string    | Yes       |         |
 
 #### Responses Examples
 
@@ -247,7 +342,7 @@ None
 ```json
 {
   "message": {
-    "emailAddress": ["Missing data for required field."]
+    "username": ["Missing data for required field."]
   }
 }
 ```
@@ -268,7 +363,7 @@ POST
 
 #### URL
 
-/api/todolist
+/todolist
 
 #### Headers
 
@@ -325,7 +420,7 @@ GET
 
 #### URL
 
-/api/todolist
+/todolist
 
 #### Headers
 
@@ -376,7 +471,7 @@ GET
 
 #### URL
 
-/api/todolist/<id>
+/todolist/<id>
 
 #### Headers
 
@@ -428,7 +523,7 @@ PATCH
 
 #### URL
 
-/api/todolist/<id>
+/todolist/<id>
 
 #### Headers
 
@@ -493,7 +588,7 @@ DELETE
 
 #### URL
 
-/api/todolist/<id>
+/todolist/<id>
 
 #### Headers
 
@@ -543,7 +638,7 @@ POST
 
 #### URL
 
-/api/todo
+/todo
 
 #### Headers
 
@@ -612,7 +707,7 @@ GET
 
 #### URL
 
-/api/todo
+/todo
 
 #### Headers
 
@@ -689,7 +784,7 @@ GET
 
 #### URL
 
-/api/todo/<id>
+/todo/<id>
 
 #### Headers
 
@@ -747,7 +842,7 @@ PATCH
 
 #### URL
 
-/api/todo/<id>
+/todo/<id>
 
 #### Headers
 
@@ -824,7 +919,7 @@ DELETE
 
 #### URL
 
-/api/todo/<id>
+/todo/<id>
 
 #### Headers
 

@@ -124,6 +124,5 @@ dmypy.json
 .pyre/
 
 # Custom
-dummy_data.py
 *.db
 .vscode

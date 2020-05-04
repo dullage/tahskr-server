@@ -2,23 +2,23 @@ from datetime import datetime
 
 from components.base.model import Base
 from helpers import hash_password
-from shared import PASSWORD_SALT, db
+from db import db
 
 
 class User(db.Model, Base):
     __tablename__ = "User"
 
     id = db.Column(db.Integer, primary_key=True)
-    email_address = db.Column(db.String(64), unique=True, nullable=False)
+    username = db.Column(db.String(64), unique=True, nullable=False)
     password = db.Column(db.String(255), nullable=False)
     failed_login_attempts = db.Column(db.Integer, nullable=False)
     locked = db.Column(db.Boolean, nullable=False)
     config = db.Column(db.PickleType)
     created = db.Column(db.DateTime, nullable=False)
 
-    def __init__(self, email_address, password):
-        self.email_address = email_address.lower()
-        self.password = hash_password(password, PASSWORD_SALT)
+    def __init__(self, username, password, password_salt, config=None):
+        self.username = username.lower()
+        self.password = hash_password(password, password_salt)
         self.failed_login_attempts = 0
         self.locked = False
         self.created = datetime.utcnow()
@@ -27,21 +27,21 @@ class User(db.Model, Base):
         db.session.commit()
 
     @classmethod
-    def get_by_email_address(cls, email_address):
-        return cls.query.filter_by(email_address=email_address.lower()).first()
+    def get_by_username(cls, username):
+        return cls.query.filter_by(username=username.lower()).first()
 
     @classmethod
-    def authenticate(cls, email_address, password):
+    def authenticate(cls, username, password, password_salt):
         """TODO
 
         Args:
-            email_address (str)
+            username (str)
             password (str)
 
         Returns:
             User
         """
-        user = cls.get_by_email_address(email_address)
+        user = cls.get_by_username(username)
 
         if user is None:
             return None
@@ -49,9 +49,9 @@ class User(db.Model, Base):
             return (
                 None
             )  # TODO: Let the API consumer know and allow them to reset.
-        if hash_password(password, PASSWORD_SALT) != user.password:
+        if hash_password(password, password_salt) != user.password:
             user.failed_login_attempts += 1
-            if user.failed_login_attempts >= 3:
+            if user.failed_login_attempts >= 5:
                 user.locked = True
             db.session.commit()
             return None

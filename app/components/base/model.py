@@ -1,5 +1,5 @@
 from helpers import setattrs
-from shared import db
+from db import db
 
 
 class Base(object):

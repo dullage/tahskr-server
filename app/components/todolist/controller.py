@@ -12,14 +12,14 @@ from .schema import ToDoListSchema
 todolist_blueprint = Blueprint("todolist_blueprint", __name__)
 
 
-@todolist_blueprint.route("/api/todolist", methods=["GET", "POST"])
-@AuthToken.required
+@todolist_blueprint.route("/todolist", methods=["GET", "POST"])
+@AuthToken.authenticate_user
 @json_required
-def todolist():
+def todolist(auth_user_id):
     # GET
     if request.method == "GET":
         # Get and Return ToDoLists
-        todolists = ToDoList.get_all_for_user(g.user_id)
+        todolists = ToDoList.get_all_for_user(auth_user_id)
         return jsonify(
             [ToDoListSchema().dump(todolist) for todolist in todolists]
         )
@@ -33,17 +33,17 @@ def todolist():
             return api_message(e.messages, 400)
 
         # Create and Return ToDoList
-        todolist = ToDoList(g.user_id, data["name"])
+        todolist = ToDoList(auth_user_id, data["name"])
         return jsonify(ToDoListSchema().dump(todolist)), 201
 
 
 @todolist_blueprint.route(
-    "/api/todolist/<int:todolist_id>", methods=["GET", "PATCH", "DELETE"]
+    "/todolist/<int:todolist_id>", methods=["GET", "PATCH", "DELETE"]
 )
-@AuthToken.required
+@AuthToken.authenticate_user
 @json_required
-def todolist_by_id(todolist_id):
-    todolist = ToDoList.get_by_id_for_user(g.user_id, todolist_id)
+def todolist_by_id(todolist_id, auth_user_id):
+    todolist = ToDoList.get_by_id_for_user(auth_user_id, todolist_id)
     if todolist is None:
         return api_message(lang.not_found, 404)
 
