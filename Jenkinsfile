@@ -1,7 +1,7 @@
 pipeline {
     // This pipeline relies on there being only 1 agent that has the labels 'docker && amd64' and 1 
     // that has the labels 'docker && arm32v7'. If there are multiple then stashes must be implemented.
-    agent { docker { image 'alpine/git' } }
+    agent none
     stages {
         stage('Build') {
             environment {
@@ -20,11 +20,13 @@ pipeline {
         }
         stage('Tag') {
             when { branch 'master' }
+            agent { docker { image 'alpine' } }
             environment {
                 GIT_REPO_SLUG = 'Dullage/tahskr-server'
                 GITHUB_TOKEN = credentials('github_token')
             }
             steps {
+                sh 'apk update --no-cache && apk add git'
                 sh 'ash $WORKSPACE/.jenkins/tag.sh'
             }
         }
@@ -75,11 +77,15 @@ pipeline {
         }
         stage('Integrate') {
             when { anyOf { branch 'master'; branch 'develop' } }
+            agent { docker { image 'alpine' } }
             environment {
                 SSH_KEY = credentials('droplet_ssh_key')
                 DEPLOY_IP = credentials('droplet_ip')
             }
-            steps { sh 'ash $WORKSPACE/.jenkins/integrate.sh' }
+            steps {
+                sh 'apk update --no-cache && apk add openssh-client'
+                sh 'ash $WORKSPACE/.jenkins/integrate.sh'
+            }
         }
     }
 }
