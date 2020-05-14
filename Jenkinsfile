@@ -1,7 +1,7 @@
 pipeline {
     // This pipeline relies on there being only 1 agent that has the labels 'docker && amd64' and 1 
     // that has the labels 'docker && arm32v7'. If there are multiple then stashes must be implemented.
-    agent none
+    agent any
     stages {
         stage('Build') {
             environment {
@@ -20,12 +20,6 @@ pipeline {
         }
         stage('Tag') {
             when { branch 'master' }
-            agent {
-                dockerfile {
-                    dir ".jenkins"
-                    args "-v /etc/passwd:/etc/passwd:ro"
-                }
-            }
             environment {
                 GIT_REPO_SLUG = 'Dullage/tahskr-server'
                 GITHUB_TOKEN = credentials('github_token')
@@ -81,12 +75,6 @@ pipeline {
         }
         stage('Integrate') {
             when { anyOf { branch 'master'; branch 'develop' } }
-            agent {
-                dockerfile {
-                    dir ".jenkins"
-                    args "-v /etc/passwd:/etc/passwd:ro"
-                }
-            }
             environment {
                 SSH_KEY = credentials('droplet_ssh_key')
                 DEPLOY_IP = credentials('droplet_ip')
