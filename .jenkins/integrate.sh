@@ -9,7 +9,7 @@ elif [[ $BRANCH == "develop" ]]
 then
     deploy_script=/home/dullage/tahskr/server/dev/deploy.sh
 else
-    echo Invalid Branch!
+    echo Invalid Branch: $BRANCH
     exit 1
 fi
 
