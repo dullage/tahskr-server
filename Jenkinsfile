@@ -20,7 +20,12 @@ pipeline {
         }
         stage('Tag') {
             when { branch 'master' }
-            agent { docker { image 'alpine' } }
+            agent {
+                dockerfile {
+                    dir ".jenkins"
+                    args "-v /etc/passwd:/etc/passwd:ro"
+                }
+            }
             environment {
                 GIT_REPO_SLUG = 'Dullage/tahskr-server'
                 GITHUB_TOKEN = credentials('github_token')
@@ -77,7 +82,12 @@ pipeline {
         }
         stage('Integrate') {
             when { anyOf { branch 'master'; branch 'develop' } }
-            agent { docker { image 'alpine' } }
+            agent {
+                dockerfile {
+                    dir ".jenkins"
+                    args "-v /etc/passwd:/etc/passwd:ro"
+                }
+            }
             environment {
                 SSH_KEY = credentials('droplet_ssh_key')
                 DEPLOY_IP = credentials('droplet_ip')
