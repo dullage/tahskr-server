@@ -7,15 +7,7 @@ pipeline {
             args "-v /etc/passwd:/etc/passwd:ro"
         }
     }
-    environment {
-        VERSION = sh "cat $WORKSPACE/app/version.json | jq -r '.version'"
-    }
     stages {
-        stage("Test Stage") {
-            steps {
-                echo "Hello World"
-            }
-        }
         stage("Build") {
             environment {
                 DOCKER_REPO_SLUG = "dullage/tahskr-server"
@@ -33,12 +25,6 @@ pipeline {
         }
         stage("Tag") {
             when { branch "master" }
-            agent {
-                dockerfile {
-                    dir ".jenkins"
-                    args "-v /etc/passwd:/etc/passwd:ro"
-                }
-            }
             environment {
                 GIT_REPO_SLUG = "Dullage/tahskr-server"
                 GITHUB_TOKEN = credentials("github_token")
@@ -58,16 +44,16 @@ pipeline {
                     agent { label "docker && amd64" }
                     steps {
                         sh "echo '$DOCKER_CREDENTIALS_PSW' | docker login -u '$DOCKER_CREDENTIALS_USR' --password-stdin"
-                        sh "docker tag $DOCKER_REPO_SLUG:_amd64 $DOCKER_REPO_SLUG:$VERSION-amd64"
-                        sh "docker push $DOCKER_REPO_SLUG:$VERSION-amd64"
+                        sh "docker tag $DOCKER_REPO_SLUG:_amd64 $DOCKER_REPO_SLUG:$(cat $WORKSPACE/app/version)-amd64"
+                        sh "docker push $DOCKER_REPO_SLUG:$(cat $WORKSPACE/app/version)-amd64"
                     }
                 }
                 stage("Deploy (arm32v7)") {
                     agent { label "docker && arm32v7" }
                     steps {
                         sh "echo '$DOCKER_CREDENTIALS_PSW' | docker login -u '$DOCKER_CREDENTIALS_USR' --password-stdin"
-                        sh "docker tag $DOCKER_REPO_SLUG:_arm32v7 $DOCKER_REPO_SLUG:$VERSION-arm32v7"
-                        sh "docker push $DOCKER_REPO_SLUG:$VERSION-arm32v7"
+                        sh "docker tag $DOCKER_REPO_SLUG:_arm32v7 $DOCKER_REPO_SLUG:$(cat $WORKSPACE/app/version)-arm32v7"
+                        sh "docker push $DOCKER_REPO_SLUG:$(cat $WORKSPACE/app/version)-arm32v7"
                     }
                 }
             }
@@ -83,23 +69,17 @@ pipeline {
             steps {
                 sh "echo '$DOCKER_CREDENTIALS_PSW' | docker login -u '$DOCKER_CREDENTIALS_USR' --password-stdin"
                 // Version
-                sh "docker manifest create $DOCKER_REPO_SLUG:$VERSION $DOCKER_REPO_SLUG:$VERSION-amd64 $DOCKER_REPO_SLUG:$VERSION-arm32v7"
-                sh "docker manifest annotate $DOCKER_REPO_SLUG:$VERSION $DOCKER_REPO_SLUG:$VERSION-arm32v7 --variant v7"
-                sh "docker manifest push $DOCKER_REPO_SLUG:$VERSION"
+                sh "docker manifest create $DOCKER_REPO_SLUG:$(cat $WORKSPACE/app/version) $DOCKER_REPO_SLUG:$(cat $WORKSPACE/app/version)-amd64 $DOCKER_REPO_SLUG:$(cat $WORKSPACE/app/version)-arm32v7"
+                sh "docker manifest annotate $DOCKER_REPO_SLUG:$(cat $WORKSPACE/app/version) $DOCKER_REPO_SLUG:$(cat $WORKSPACE/app/version)-arm32v7 --variant v7"
+                sh "docker manifest push $DOCKER_REPO_SLUG:$(cat $WORKSPACE/app/version)"
                 // Latest
-                sh "docker manifest create $DOCKER_REPO_SLUG:latest $DOCKER_REPO_SLUG:$VERSION-amd64 $DOCKER_REPO_SLUG:$VERSION-arm32v7"
-                sh "docker manifest annotate $DOCKER_REPO_SLUG:latest $DOCKER_REPO_SLUG:$VERSION-arm32v7 --variant v7"
+                sh "docker manifest create $DOCKER_REPO_SLUG:latest $DOCKER_REPO_SLUG:$(cat $WORKSPACE/app/version)-amd64 $DOCKER_REPO_SLUG:$(cat $WORKSPACE/app/version)-arm32v7"
+                sh "docker manifest annotate $DOCKER_REPO_SLUG:latest $DOCKER_REPO_SLUG:$(cat $WORKSPACE/app/version)-arm32v7 --variant v7"
                 sh "docker manifest push $DOCKER_REPO_SLUG:latest"
             }
         }
         stage("Integrate") {
-            when { branch "master || develop" }
-            agent {
-                dockerfile {
-                    dir ".jenkins"
-                    args "-v /etc/passwd:/etc/passwd:ro"
-                }
-            }
+            when { anyOf { branch 'master'; branch 'develop' } }
             environment {
                 SSH_KEY = credentials("droplet_ssh_key")
                 DEPLOY_IP = credentials("droplet_ip")

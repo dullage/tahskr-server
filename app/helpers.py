@@ -1,4 +1,3 @@
-import json
 import os
 from functools import wraps
 from hashlib import sha256
@@ -67,7 +66,6 @@ def init_database_url(app_dir_path):
 
 
 def get_version(app_dir_path):
-    version_file_path = os.path.join(app_dir_path, "version.json")
+    version_file_path = os.path.join(app_dir_path, "version")
     with open(version_file_path, "r") as version_file:
-        content = json.load(version_file)
-        return content["version"]
+        return version_file.read().strip()
