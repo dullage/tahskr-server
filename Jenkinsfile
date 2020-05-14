@@ -1,12 +1,7 @@
 pipeline {
     // This pipeline relies on there being only 1 agent that has the labels "docker && amd64" and 1 
     // that has the labels "docker && arm32v7". If there are multiple then stashes must be implemented.
-    agent {
-        dockerfile {
-            dir ".jenkins"
-            args "-v /etc/passwd:/etc/passwd:ro"
-        }
-    }
+    agent none
     environment {
         VERSION = sh "cat $WORKSPACE/app/version.json | jq -r '.version'"
     }
@@ -28,6 +23,12 @@ pipeline {
         }
         stage("Tag") {
             when { branch "master" }
+            agent {
+                dockerfile {
+                    dir ".jenkins"
+                    args "-v /etc/passwd:/etc/passwd:ro"
+                }
+            }
             environment {
                 GIT_REPO_SLUG = "Dullage/tahskr-server"
                 GITHUB_TOKEN = credentials("github_token")
@@ -73,18 +74,26 @@ pipeline {
                 sh "echo '$DOCKER_CREDENTIALS_PSW' | docker login -u '$DOCKER_CREDENTIALS_USR' --password-stdin"
                 // Version
                 sh "docker manifest create $DOCKER_REPO_SLUG:$VERSION $DOCKER_REPO_SLUG:$VERSION-amd64 $DOCKER_REPO_SLUG:$VERSION-arm32v7"
+                sh "docker manifest annotate $DOCKER_REPO_SLUG:$VERSION $DOCKER_REPO_SLUG:$VERSION-arm32v7 --variant v7"
                 sh "docker manifest push $DOCKER_REPO_SLUG:$VERSION"
                 // Latest
                 sh "docker manifest create $DOCKER_REPO_SLUG:latest $DOCKER_REPO_SLUG:$VERSION-amd64 $DOCKER_REPO_SLUG:$VERSION-arm32v7"
+                sh "docker manifest annotate $DOCKER_REPO_SLUG:latest $DOCKER_REPO_SLUG:$VERSION-arm32v7 --variant v7"
                 sh "docker manifest push $DOCKER_REPO_SLUG:latest"
             }
         }
         stage("Integrate") {
+            when { branch "master || develop" }
+            agent {
+                dockerfile {
+                    dir ".jenkins"
+                    args "-v /etc/passwd:/etc/passwd:ro"
+                }
+            }
             environment {
                 SSH_KEY = credentials("droplet_ssh_key")
                 DEPLOY_IP = credentials("droplet_ip")
             }
-            when { branch "master || develop" }
             steps { sh "ash $WORKSPACE/.jenkins/integrate.sh" }
         }
     }
