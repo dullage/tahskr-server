@@ -2,14 +2,14 @@
 
 set -e
 
-if [[ $BRANCH == "master" ]]
+if [[ $BRANCH_NAME == "master" ]]
 then
     deploy_script=/home/dullage/tahskr/server/prod/deploy.sh
-elif [[ $BRANCH == "develop" ]]
+elif [[ $BRANCH_NAME == "develop" ]]
 then
     deploy_script=/home/dullage/tahskr/server/dev/deploy.sh
 else
-    echo Invalid Branch: $BRANCH
+    echo Invalid Branch: $BRANCH_NAME
     exit 1
 fi
 
