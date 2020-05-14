@@ -3,7 +3,8 @@ pipeline {
     // that has the labels "docker && arm32v7". If there are multiple then stashes must be implemented.
     agent none
     environment {
-        VERSION = sh "cat $WORKSPACE/app/version.json | jq -r '.version'"
+        // VERSION = sh "cat $WORKSPACE/app/version.json | jq -r '.version'"
+        VERSION = "test"
     }
     stages {
         stage("Build") {
