@@ -1,12 +1,19 @@
 pipeline {
     // This pipeline relies on there being only 1 agent that has the labels "docker && amd64" and 1 
     // that has the labels "docker && arm32v7". If there are multiple then stashes must be implemented.
-    agent none
+    agent dockerfile {
+        dir ".jenkins"
+        args "-v /etc/passwd:/etc/passwd:ro"
+    }
     environment {
-        // VERSION = sh "cat $WORKSPACE/app/version.json | jq -r '.version'"
-        VERSION = "test"
+        VERSION = sh "cat $WORKSPACE/app/version.json | jq -r '.version'"
     }
     stages {
+        stage("Test Stage") {
+            steps {
+                echo "Hello World"
+            }
+        }
         stage("Build") {
             environment {
                 DOCKER_REPO_SLUG = "dullage/tahskr-server"
