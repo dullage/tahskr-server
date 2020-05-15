@@ -68,7 +68,7 @@ pipeline {
                 DOCKER_CLI_EXPERIMENTAL = 'enabled'
             }
             steps {
-                sh '''echo '$DOCKER_CREDENTIALS_PSW' | docker login -u '$DOCKER_CREDENTIALS_USR' --password-stdin'''
+                sh 'echo $DOCKER_CREDENTIALS_PSW | docker login -u $DOCKER_CREDENTIALS_USR --password-stdin'
                 // Version
                 sh 'docker manifest create $DOCKER_REPO_SLUG:$(cat $WORKSPACE/app/version) $DOCKER_REPO_SLUG:$(cat $WORKSPACE/app/version)-amd64 $DOCKER_REPO_SLUG:$(cat $WORKSPACE/app/version)-arm32v7'
                 sh 'docker manifest annotate $DOCKER_REPO_SLUG:$(cat $WORKSPACE/app/version) $DOCKER_REPO_SLUG:$(cat $WORKSPACE/app/version)-arm32v7 --variant v7'
