@@ -44,7 +44,7 @@ pipeline {
                 stage('Deploy (amd64)') {
                     agent { label 'docker && amd64' }
                     steps {
-                        sh '''echo '$DOCKER_CREDENTIALS_PSW' | docker login -u '$DOCKER_CREDENTIALS_USR' --password-stdin'''
+                        sh 'echo $DOCKER_CREDENTIALS_PSW | docker login -u $DOCKER_CREDENTIALS_USR --password-stdin'
                         sh 'docker tag $DOCKER_REPO_SLUG:_amd64 $DOCKER_REPO_SLUG:$(cat $WORKSPACE/app/version)-amd64'
                         sh 'docker push $DOCKER_REPO_SLUG:$(cat $WORKSPACE/app/version)-amd64'
                     }
@@ -52,7 +52,7 @@ pipeline {
                 stage('Deploy (arm32v7)') {
                     agent { label 'docker && arm32v7' }
                     steps {
-                        sh '''echo '$DOCKER_CREDENTIALS_PSW' | docker login -u '$DOCKER_CREDENTIALS_USR' --password-stdin'''
+                        sh 'echo $DOCKER_CREDENTIALS_PSW | docker login -u $DOCKER_CREDENTIALS_USR --password-stdin'
                         sh 'docker tag $DOCKER_REPO_SLUG:_arm32v7 $DOCKER_REPO_SLUG:$(cat $WORKSPACE/app/version)-arm32v7'
                         sh 'docker push $DOCKER_REPO_SLUG:$(cat $WORKSPACE/app/version)-arm32v7'
                     }
