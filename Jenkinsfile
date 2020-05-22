@@ -18,12 +18,12 @@ pipeline {
                 }
             }
         }
-        stage('Tag') {
+        stage('Release') {
             when { branch 'master' }
             agent {
                 dockerfile {
-                    dir ".jenkins"
-                    args "-v /etc/passwd:/etc/passwd:ro"
+                    dir '.jenkins'
+                    args '-v /etc/passwd:/etc/passwd:ro'
                 }
             }
             environment {
@@ -31,7 +31,7 @@ pipeline {
                 GITHUB_TOKEN = credentials('github_token')
             }
             steps {
-                sh 'bash $WORKSPACE/.jenkins/tag.sh'
+                sh 'bash $WORKSPACE/.jenkins/release.sh'
             }
         }
         stage('Deploy Builds') {
@@ -45,16 +45,16 @@ pipeline {
                     agent { label 'docker && amd64' }
                     steps {
                         sh 'echo $DOCKER_CREDENTIALS_PSW | docker login -u $DOCKER_CREDENTIALS_USR --password-stdin'
-                        sh 'docker tag $DOCKER_REPO_SLUG:_amd64 $DOCKER_REPO_SLUG:$(cat $WORKSPACE/app/version)-amd64'
-                        sh 'docker push $DOCKER_REPO_SLUG:$(cat $WORKSPACE/app/version)-amd64'
+                        sh 'docker tag $DOCKER_REPO_SLUG:_amd64 $DOCKER_REPO_SLUG:$(cat $WORKSPACE/app/VERSION)-amd64'
+                        sh 'docker push $DOCKER_REPO_SLUG:$(cat $WORKSPACE/app/VERSION)-amd64'
                     }
                 }
                 stage('Deploy (arm32v7)') {
                     agent { label 'docker && arm32v7' }
                     steps {
                         sh 'echo $DOCKER_CREDENTIALS_PSW | docker login -u $DOCKER_CREDENTIALS_USR --password-stdin'
-                        sh 'docker tag $DOCKER_REPO_SLUG:_arm32v7 $DOCKER_REPO_SLUG:$(cat $WORKSPACE/app/version)-arm32v7'
-                        sh 'docker push $DOCKER_REPO_SLUG:$(cat $WORKSPACE/app/version)-arm32v7'
+                        sh 'docker tag $DOCKER_REPO_SLUG:_arm32v7 $DOCKER_REPO_SLUG:$(cat $WORKSPACE/app/VERSION)-arm32v7'
+                        sh 'docker push $DOCKER_REPO_SLUG:$(cat $WORKSPACE/app/VERSION)-arm32v7'
                     }
                 }
             }
@@ -70,12 +70,12 @@ pipeline {
             steps {
                 sh 'echo $DOCKER_CREDENTIALS_PSW | docker login -u $DOCKER_CREDENTIALS_USR --password-stdin'
                 // Version
-                sh 'docker manifest create $DOCKER_REPO_SLUG:$(cat $WORKSPACE/app/version) $DOCKER_REPO_SLUG:$(cat $WORKSPACE/app/version)-amd64 $DOCKER_REPO_SLUG:$(cat $WORKSPACE/app/version)-arm32v7'
-                sh 'docker manifest annotate $DOCKER_REPO_SLUG:$(cat $WORKSPACE/app/version) $DOCKER_REPO_SLUG:$(cat $WORKSPACE/app/version)-arm32v7 --variant v7'
-                sh 'docker manifest push $DOCKER_REPO_SLUG:$(cat $WORKSPACE/app/version)'
+                sh 'docker manifest create --amend $DOCKER_REPO_SLUG:$(cat $WORKSPACE/app/VERSION) $DOCKER_REPO_SLUG:$(cat $WORKSPACE/app/VERSION)-amd64 $DOCKER_REPO_SLUG:$(cat $WORKSPACE/app/VERSION)-arm32v7'
+                sh 'docker manifest annotate $DOCKER_REPO_SLUG:$(cat $WORKSPACE/app/VERSION) $DOCKER_REPO_SLUG:$(cat $WORKSPACE/app/VERSION)-arm32v7 --variant v7'
+                sh 'docker manifest push $DOCKER_REPO_SLUG:$(cat $WORKSPACE/app/VERSION)'
                 // Latest
-                sh 'docker manifest create $DOCKER_REPO_SLUG:latest $DOCKER_REPO_SLUG:$(cat $WORKSPACE/app/version)-amd64 $DOCKER_REPO_SLUG:$(cat $WORKSPACE/app/version)-arm32v7'
-                sh 'docker manifest annotate $DOCKER_REPO_SLUG:latest $DOCKER_REPO_SLUG:$(cat $WORKSPACE/app/version)-arm32v7 --variant v7'
+                sh 'docker manifest create --amend $DOCKER_REPO_SLUG:latest $DOCKER_REPO_SLUG:$(cat $WORKSPACE/app/VERSION)-amd64 $DOCKER_REPO_SLUG:$(cat $WORKSPACE/app/VERSION)-arm32v7'
+                sh 'docker manifest annotate $DOCKER_REPO_SLUG:latest $DOCKER_REPO_SLUG:$(cat $WORKSPACE/app/VERSION)-arm32v7 --variant v7'
                 sh 'docker manifest push $DOCKER_REPO_SLUG:latest'
             }
         }
@@ -83,8 +83,8 @@ pipeline {
             when { anyOf { branch 'master'; branch 'develop' } }
             agent {
                 dockerfile {
-                    dir ".jenkins"
-                    args "-v /etc/passwd:/etc/passwd:ro"
+                    dir '.jenkins'
+                    args '-v /etc/passwd:/etc/passwd:ro'
                 }
             }
             environment {

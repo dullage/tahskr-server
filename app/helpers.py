@@ -66,6 +66,6 @@ def init_database_url(app_dir_path):
 
 
 def get_version(app_dir_path):
-    version_file_path = os.path.join(app_dir_path, "version")
+    version_file_path = os.path.join(app_dir_path, "VERSION")
     with open(version_file_path, "r") as version_file:
         return version_file.read().strip()
