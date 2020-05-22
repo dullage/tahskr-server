@@ -70,13 +70,13 @@ pipeline {
             steps {
                 sh 'echo $DOCKER_CREDENTIALS_PSW | docker login -u $DOCKER_CREDENTIALS_USR --password-stdin'
                 // Version
-                sh 'docker manifest create --amend $DOCKER_REPO_SLUG:$(cat $WORKSPACE/app/VERSION) $DOCKER_REPO_SLUG:$(cat $WORKSPACE/app/VERSION)-amd64 $DOCKER_REPO_SLUG:$(cat $WORKSPACE/app/VERSION)-arm32v7'
+                sh 'docker manifest create $DOCKER_REPO_SLUG:$(cat $WORKSPACE/app/VERSION) $DOCKER_REPO_SLUG:$(cat $WORKSPACE/app/VERSION)-amd64 $DOCKER_REPO_SLUG:$(cat $WORKSPACE/app/VERSION)-arm32v7'
                 sh 'docker manifest annotate $DOCKER_REPO_SLUG:$(cat $WORKSPACE/app/VERSION) $DOCKER_REPO_SLUG:$(cat $WORKSPACE/app/VERSION)-arm32v7 --variant v7'
-                sh 'docker manifest push $DOCKER_REPO_SLUG:$(cat $WORKSPACE/app/VERSION)'
+                sh 'docker manifest push --purge $DOCKER_REPO_SLUG:$(cat $WORKSPACE/app/VERSION)'
                 // Latest
-                sh 'docker manifest create --amend $DOCKER_REPO_SLUG:latest $DOCKER_REPO_SLUG:$(cat $WORKSPACE/app/VERSION)-amd64 $DOCKER_REPO_SLUG:$(cat $WORKSPACE/app/VERSION)-arm32v7'
+                sh 'docker manifest create $DOCKER_REPO_SLUG:latest $DOCKER_REPO_SLUG:$(cat $WORKSPACE/app/VERSION)-amd64 $DOCKER_REPO_SLUG:$(cat $WORKSPACE/app/VERSION)-arm32v7'
                 sh 'docker manifest annotate $DOCKER_REPO_SLUG:latest $DOCKER_REPO_SLUG:$(cat $WORKSPACE/app/VERSION)-arm32v7 --variant v7'
-                sh 'docker manifest push $DOCKER_REPO_SLUG:latest'
+                sh 'docker manifest push --purge $DOCKER_REPO_SLUG:latest'
             }
         }
         stage('Integrate') {
