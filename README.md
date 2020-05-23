@@ -15,7 +15,7 @@ Both parts can be self-hosted but you only really need to self-host the server s
 
 ## Screenshot
 
-![Screenshot](https://github.com/Dullage/tahskr/blob/master/docs/screenshot.png)
+![Screenshot](https://github.com/Dullage/tahskr/blob/master/docs/screenshot.png?raw=true)
 
 ## Installation
 
