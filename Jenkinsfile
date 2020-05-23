@@ -93,7 +93,7 @@ pipeline {
                 DEPLOY_IP = credentials('droplet_ip')
             }
             steps {
-                sh 'bash $WORKSPACE/.jenkins/integrate.sh'
+                sh 'ssh -i $SSH_KEY -o StrictHostKeyChecking=no jenkins@$DEPLOY_IP "deploy-tahskr-server $BRANCH_NAME"'
             }
         }
     }
