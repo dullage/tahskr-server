@@ -32,7 +32,7 @@ docker run \
   -d \
   --name tahskr-server \
   -v "/path/for/database:/app/data" \
-  -p 80:80 \
+  -p 80:8080 \
   --restart=always \
   dullage/tahskr-server:latest
 ```
