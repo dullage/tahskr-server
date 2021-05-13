@@ -1,0 +1,22 @@
+[[source]]
+name = "pypi"
+url = "https://pypi.org/simple"
+verify_ssl = true
+
+[dev-packages]
+flake8 = "*"
+rope = "*"
+isort = "*"
+black = "*"
+
+[packages]
+marshmallow = "*"
+simplejson = "*"
+Flask = "*"
+Flask-SQLAlchemy = "*"
+
+[requires]
+python_version = "3.8"
+
+[pipenv]
+allow_prereleases = true
