@@ -11,8 +11,6 @@ tahskr is a simple, open source, self-hosted todo manager.
 
 There are two parts to tahskr. The **server side** that stores and serves data (that's this repo) and the [**frontend**](https://github.com/Dullage/tahskr) that provides a web interface accessible from a mobile/desktop browser or Windows Electron app.
 
-Both parts can be self-hosted but you only really need to self-host the server side as [tahskr.com](https://tahskr.com) or the published Electron app can be used to access data on any tahskr server.
-
 ## Screenshot
 
 ![Screenshot](https://github.com/Dullage/tahskr/blob/master/docs/screenshot.png?raw=true)
