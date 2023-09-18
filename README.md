@@ -23,16 +23,42 @@ There are two parts to tahskr. The **server side** that stores and serves data (
 
 Docker images of all [releases](https://github.com/Dullage/tahskr-server/releases) are published to [Docker Hub](https://hub.docker.com/r/dullage/tahskr-server). These images are built for x86/64 and arm64.
 
-Example Command:
+Example Docker Run Command:
 
 ```bash
-docker run \
-  -d \
+docker run -d \
   --name tahskr-server \
+  -e "TAHSKR_ADMIN_PASSWORD=changeMe!" \
   -v "/path/for/database:/app/data" \
-  -p 80:8080 \
-  --restart=always \
+  -p 8080:8080 \
+  --restart=unless-stopped \
   dullage/tahskr-server:latest
+```
+
+Example Docker Compose:
+
+```bash
+version: "3"
+
+services:
+  tahskr:
+    container_name: tahskr-server
+    image: dullage/tahskr-server:latest
+    environment:
+      TAHSKR_ADMIN_PASSWORD: "changeMe!"
+    volumes:
+      - "/path/for/database:/app/data"
+    ports:
+      - "8080:8080"
+    restart: unless-stopped
+```
+
+Once running, you can use the API to create a user account. See the [API docs](https://github.com/Dullage/tahskr-server/blob/master/docs/api.md) for details.
+
+Example Curl Command:
+
+```bash
+curl -X POST http://[SERVER IP OR NAME]:[YOUR PORT]/user -H 'Content-Type: application/json' -H 'x-admin: [YOUR ADMIN PASSWORD]' -d '{ "username": "[YOUR USERNAME]", "password": "[YOUR PASSWORD]"}'
 ```
 
 ### Other
